@@ -1,4 +1,4 @@
-import { testStatus } from "../utills/interface.d.ts"
+import { testStatus } from "../utils/interface.d.ts"
 /*
     type status = "operational" | "degraded_performance" | "partial_outage" | "major_outage" 
 */

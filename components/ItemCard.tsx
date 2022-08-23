@@ -1,17 +1,49 @@
-export default function ItemCard() {
+import { testStatus } from "../utils/interface.d.ts"
+/*
+    type status = "operational" | "degraded_performance" | "partial_outage" | "major_outage" 
+*/
+export default function ItemCard(opts: { status: testStatus, title: string }) {
+    let bgColor = ''
+    let statusIcon = ''
+    const status = opts.status
+    const baseClass = 'material-icons'
+    if (status === "operational") {
+        bgColor = 'text-green-600'
+        statusIcon = 'check_circle'
+    } else if (status === "degraded_performance") {
+        bgColor = 'text-yellow-600'
+
+        statusIcon = 'report_problem'
+    } else if (status === "partial_outage") {
+        bgColor = 'text-orange-600'
+
+        statusIcon = 'report_problem'
+    } else if (status === "major_outage") {
+        bgColor = 'text-pink-700'
+        statusIcon = 'highlight_off'
+    }
+    bgColor = baseClass + ' ' + bgColor
+
     return (
-        <div className="bg-white border-gray-300  border-0.5 md-w-1/2 h-23 px-5 flex justify-center" style={{'flex-direction': 'column'}} >
+        <div className="bg-white border-gray-300  border-0.5 md-w-1/2 h-23 px-5 flex justify-center flex-col" >
             <div className="flex justify-between">
                 <div className="flex items-center">
-                    <p className="text-4.5 mr-3" >Git Operations</p>
-                    <img src="https://github.githubassets.com/favicons/favicon.svg" className="w-4 h-4" />
+                    <p className="text-4.5 mr-3 hover:cursor-pointer hover:text-blue hover:underline " >{opts.title}</p>
+                    <span className="material-icons text-gray-400 scale-80 hover:text-gray-800 hover:cursor-pointer ">
+                        help_outline
+                    </span>
+                    <div className="display-none bg-white border-0.5 shadow border-gray-300 flex items-center whitespace-nowrap w-40 h-5 relative top--8 left--10 text-3 justify-center text-gray-500  before:border-l-1 before:content-[123] before:text-transparent before:border-b-1 before:w-4 before:h-4 before:relative before:top-2.5 before:left--1  before:rotate--45 before:border-gray-300 before:bg-white ">
+                        3 test case failed
+                    </div>
 
                 </div>
                 <div className="">
-                    <img src="https://github.githubassets.com/favicons/favicon.svg" className="w-6 h-6" />
+                    <span className={bgColor}>
+                        {statusIcon}
+                    </span>
+
                 </div>
             </div>
-            <p className="text-sm text-gray-500">Normal</p>
 
         </div>
     );
