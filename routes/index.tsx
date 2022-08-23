@@ -1,15 +1,18 @@
 import {Link} from "aleph/react";
 import StatusCard from "../components/StatusCard.tsx";
 import ItemCard from "../components/ItemCard.tsx";
-
+import { testStatus } from "../utills/interface.d.ts"
 
 export default function Index() {
+
+
+
   return (
     <div >
       {/* main */}
       <div className="w-9/10 max-w-245 mx-auto relative md-top--28">
         {/* status card */}
-        <StatusCard />
+        <StatusCard status="operational"/>
         <h1 className="text-3xl my-8">Current status</h1>
 
         {/* item card */}

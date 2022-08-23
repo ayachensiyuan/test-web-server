@@ -1,0 +1,1 @@
+export type testStatus = "operational" | "degraded_performance" | "partial_outage" | "major_outage"

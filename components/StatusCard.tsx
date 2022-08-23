@@ -1,12 +1,43 @@
-export default function StatusCard() {
+import { testStatus } from "../utills/interface.d.ts"
+/*
+    type status = "operational" | "degraded_performance" | "partial_outage" | "major_outage" 
+*/
+export default function StatusCard(opts: { status: testStatus}) {
+    let bgColor = ''
+    let statusText = ''
+    let statusIcon = ''
+    const status = opts.status
+    const baseClass = 'rounded-md relative md-top--6'
+    if(status === "operational") {
+        bgColor = 'bg-green-600'
+        statusText = 'All Systems Operational'
+        statusIcon = 'check_circle'
+    } else if(status === "degraded_performance") {
+        bgColor = 'bg-yellow-600'
+        statusText = 'Degraded Performance'
+        statusIcon = 'report_problem'
+    } else if(status === "partial_outage") {
+        bgColor = 'bg-orange-600'
+        statusText = 'Partial Outage'
+        statusIcon = 'report_problem'
+    } else if(status === "major_outage") {
+        bgColor = 'bg-pink-700'
+        statusText = 'Oposss!!! Something went wrong...'
+        statusIcon = 'highlight_off'
+    }
+
+    bgColor = baseClass + ' ' + bgColor
+
     return (
-        <div className="bg-green-600 rounded-md relative md-top--6">
+        <div className={bgColor}>
             <div className="flex md-h-13 h-10 flex items-center text-white">
                 {/* icon */}
                 <div className="mx-5 flex justify-center items-center">
-                    <img src="https://github.githubassets.com/favicons/favicon-dark.svg" className="w-6 h-6" />
+                <span className="material-icons">
+                {statusIcon}
+                </span>
                 </div>
-                <p className="text-xl font-bold">All Systems Operational</p>
+                <p className="text-xl font-bold">{statusText}</p>
 
             </div>
         </div>
