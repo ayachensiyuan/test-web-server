@@ -3,6 +3,11 @@ import { testStatus } from "../utils/interface.d.ts"
 import IncidentItem from "./IncidentItem.tsx"
 export default function IncidentEvent(opts: {eventList: {eventTitle:string, eventSubTitle: string, time: number, status: testStatus }[], month: string}) {
     const eventList = opts.eventList
+
+    
+    const toggle = () => {
+        return 
+    }
     
     return (
         <div className="md-px-10 px-7 font-400">

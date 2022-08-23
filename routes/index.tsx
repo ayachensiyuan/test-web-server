@@ -1,19 +1,27 @@
 import {Link} from "aleph/react";
 import StatusCard from "../components/StatusCard.tsx";
 import ItemCard from "../components/ItemCard.tsx";
-import { testStatus } from "../utils/interface.d.ts"
+
 
 export default function Index() {
 
   const mainStatusTitle = 'Current Status'
 
+  const getDatafromAPI = async () => {
+    const res = await fetch('http://127.0.0.1:3001/api/gettestdata')
+    const data = await res.json()
+    console.log(res)
+    return data
+  }
+
 
   return (
     <div >
       {/* main */}
+      <button onClick={getDatafromAPI}>click me!!!</button>
       <div className="w-9/10 max-w-245 mx-auto relative md-top--28">
         {/* status card */}
-        <StatusCard status="operational"/>
+        <StatusCard status="partial_outage"/>
         <h1 className="text-3xl my-8 hover:cursor-default">{mainStatusTitle}</h1>
 
         {/* item card */}
@@ -28,8 +36,8 @@ export default function Index() {
 
         <hr className="mt-10 text-gray-200 border-1.5" />
 
-        <div className="flex justify-end">
-          <Link className="flex no-wrap " to="/history">
+        <div className="flex justify-end mb-20 pr-3">
+          <Link className="flex no-wrap" to="/history">
             <span className="text-blue-600 mt-7">Incident History </span>
             <span className="border-r-2 text-transparent border-b-2 w-2 h-2 border-blue-600 rotate--45 relative top-9.5 left-2 "></span>
           </Link>

@@ -6,6 +6,8 @@ export default function Mypage() {
   const historyPageTitle = 'Incident History'
   const time = Date.now()
 
+  console.log('history')
+
   const fakeList1: IncidentItem = [
     {eventTitle: 'title1', eventSubTitle: 'subtitle1', time, status: 'operational'},
     {eventTitle: 'title2', eventSubTitle: 'subtitle2', time, status: 'partial_outage'},
@@ -46,7 +48,7 @@ return (
             </div>
             
         </div>
-        <div className="flex justify-end mb-20">
+        <div className="flex justify-end mb-20 pr-3">
           <Link className="flex no-wrap " to="/">
             <span className="text-blue-600 mt-7">Current Status </span>
             <span className="border-r-2 text-transparent border-b-2 w-2 h-2 border-blue-600 rotate--45 relative top-9.5 left-2 "></span>
