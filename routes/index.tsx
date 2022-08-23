@@ -14,7 +14,7 @@ export default function Index() {
       <div className="w-9/10 max-w-245 mx-auto relative md-top--28">
         {/* status card */}
         <StatusCard status="operational"/>
-        <h1 className="text-3xl my-8">{mainStatusTitle}</h1>
+        <h1 className="text-3xl my-8 hover:cursor-default">{mainStatusTitle}</h1>
 
         {/* item card */}
         <div className="flex md-flex-wrap md-flex-row flex-col shadow-md shadow-gray-200">
@@ -29,8 +29,9 @@ export default function Index() {
         <hr className="mt-10 text-gray-200 border-1.5" />
 
         <div className="flex justify-end">
-          <Link to="/history">
-            <p className="text-blue-600 mt-7">Incident History ></p>
+          <Link className="flex no-wrap " to="/history">
+            <span className="text-blue-600 mt-7">Incident History </span>
+            <span className="border-r-2 text-transparent border-b-2 w-2 h-2 border-blue-600 rotate--45 relative top-9.5 left-2 "></span>
           </Link>
         </div>
 

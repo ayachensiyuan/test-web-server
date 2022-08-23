@@ -7,7 +7,7 @@ export default function IncidentItem(opts: { eventTitle: string, eventSubTitle: 
     let statusText = ''
     let statusIcon = ''
     const status = opts.status
-    const baseClass = 'md-text-5 text-4.3 md-mt-7 mt-7'
+    const baseClass = 'md-text-5 text-4.3 md-mt-7 mt-7 hover:cursor-default'
     if (status === "operational") {
         textColor = 'text-green-600'
         statusText = 'All Systems Operational'
@@ -30,14 +30,14 @@ export default function IncidentItem(opts: { eventTitle: string, eventSubTitle: 
     return (
         <div className=" border-b-1 border-l-3 border-gray-200  md-h-30 h-28">
             <div className="rounded-full bg-orange-500 w-8 h-8 relative left--4 top-5">
-                <span className="material-icons pl-1 pt-1 text-white">
+                <span className="material-icons pl-1 pt-1 text-white hover:cursor-default">
                     info
                 </span>
             </div>
             <div className="pl-8 mt--10 flex  justify-center flex-col " >
                 <div className={textColor}>{opts.eventTitle}</div>
-                <p className="md-text-3.5 text-3 mt-1 md-mt-0">{opts.eventSubTitle}</p>
-                <p className="mdtext-3.5 text-3 text-gray-500 mt-1 md-mt-0">{new Date(opts.time).toDateString()}</p>
+                <p className="md-text-3.5 text-3 mt-1 md-mt-0 hover:cursor-default">{opts.eventSubTitle}</p>
+                <p className="mdtext-3.5 text-3 text-gray-500 mt-1 md-mt-0 hover:cursor-default">{new Date(opts.time).toDateString()}</p>
             </div>
         </div>
     )

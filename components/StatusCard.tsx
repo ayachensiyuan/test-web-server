@@ -30,7 +30,7 @@ export default function StatusCard(opts: { status: testStatus}) {
 
     return (
         <div className={bgColor}>
-            <div className="flex md-h-13 h-10 flex items-center text-white">
+            <div className="flex md-h-13 h-10 flex items-center text-white hover:cursor-default">
                 {/* icon */}
                 <div className="mx-5 flex justify-center items-center">
                 <span className="material-icons">

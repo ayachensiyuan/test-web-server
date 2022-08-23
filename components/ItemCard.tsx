@@ -6,7 +6,7 @@ export default function ItemCard(opts: { status: testStatus, title: string }) {
     let bgColor = ''
     let statusIcon = ''
     const status = opts.status
-    const baseClass = 'material-icons'
+    const baseClass = 'material-icons hover:cursor-default'
     if (status === "operational") {
         bgColor = 'text-green-600'
         statusIcon = 'check_circle'
