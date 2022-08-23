@@ -2,7 +2,7 @@ import { testStatus } from "../utils/interface.d.ts"
 /*
     type status = "operational" | "degraded_performance" | "partial_outage" | "major_outage" 
 */
-export default function IncidentItem(opts: { eventTitle: string, eventSubTitle: string, time: number, status: testStatus }) {
+export default function IncidentItem(opts: { eventTitle: string, eventSubTitle: string, eventTime: number, status: testStatus }) {
     let textColor = ''
     let statusText = ''
     let statusIcon = ''
@@ -37,7 +37,7 @@ export default function IncidentItem(opts: { eventTitle: string, eventSubTitle: 
             <div className="pl-8 mt--10 flex  justify-center flex-col " >
                 <div className={textColor}>{opts.eventTitle}</div>
                 <p className="md-text-3.5 text-3 mt-1 md-mt-0 hover:cursor-default">{opts.eventSubTitle}</p>
-                <p className="mdtext-3.5 text-3 text-gray-500 mt-1 md-mt-0 hover:cursor-default">{new Date(opts.time).toDateString()}</p>
+                <p className="mdtext-3.5 text-3 text-gray-500 mt-1 md-mt-0 hover:cursor-default">{new Date(opts.eventTime).toDateString()}</p>
             </div>
         </div>
     )

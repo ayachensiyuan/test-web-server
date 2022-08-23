@@ -1,8 +1,13 @@
 export type testStatus = "operational" | "degraded_performance" | "partial_outage" | "major_outage" | "out_of_data"
 
-export type IncidentItem = {
+export type eventListInterface = {
     eventTitle: string,
     eventSubTitle: string,
-    time: number,
+    eventTime: number,
+    status: testStatus
+}
+
+export type reportCardInterface = {
+    title: string,
     status: testStatus
 }
