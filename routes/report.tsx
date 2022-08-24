@@ -1,9 +1,19 @@
 import { Link } from "aleph/react"
+
+
+
+
 //     statusIcon = 'check_circle'
 //     statusIcon = 'report_problem'
 //     statusIcon = 'highlight_off'
-export default function report() {
+export default function report(props) {
     const reportTitle = 'Incident Report'
+
+    console.log(props)
+
+
+
+
     return (
         <div className="w-9/10 max-w-250 mx-auto cursor-default">
             <h1 className="text-3xl md-pb-8 pb-4 ">{reportTitle}</h1>
