@@ -13,4 +13,5 @@ serve({
   router: { routes },
   unocss,
   ssr,
+  port: 80,
 });
