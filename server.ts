@@ -13,6 +13,4 @@ serve({
   router: { routes },
   unocss,
   ssr,
-  hostname: "0.0.0.0",
-  port: 443,
 });
