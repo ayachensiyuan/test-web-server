@@ -9,5 +9,6 @@ export type eventListInterface = {
 
 export type reportCardInterface = {
     title: string,
-    status: testStatus
+    status: testStatus,
+    reportID: number
 }

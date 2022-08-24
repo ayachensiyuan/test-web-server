@@ -18,13 +18,14 @@ export default function Index() {
   }
 
   const ItemCards:reportCardInterface[]= [
-    {title: 'CLI e2e test', status: 'operational'},
-    {title: 'vsc UI test', status: 'partial_outage'},
-    {title: 'performance test', status: 'operational'},
-    {title: 'vs UI test', status: 'degraded_performance'},
-    {title: 'sdk e2e test', status: 'major_outage'},
-    {title: 'CI/CD e2e test', status: 'major_outage'}
+    {title: 'CLI e2e test', status: 'operational', reportID: 1},
+    {title: 'vsc UI test', status: 'partial_outage', reportID: 2},
+    {title: 'performance test', status: 'operational', reportID: 3},
+    {title: 'vs UI test', status: 'degraded_performance', reportID: 4},
+    {title: 'sdk e2e test', status: 'major_outage', reportID: 5},
+    {title: 'CI/CD e2e test', status: 'major_outage', reportID: 6}
   ]
+
 
   return (
     <div >
@@ -36,7 +37,7 @@ export default function Index() {
 
         {/* item card */}
         <div className="flex md-flex-wrap md-flex-row flex-col shadow-md shadow-gray-200">
-          {ItemCards.map((item) => <ItemCard title={item.title} status={item.status}/>)}
+          {ItemCards.map((item, index) => <ItemCard key={index} title={item.title} status={item.status} reportID={item.reportID} />)}
         </div>
 
         <hr className="mt-10 text-gray-200 border-1.5" />
