@@ -8,13 +8,13 @@ export default function Header() {
           <ul className="flex items-center  justify-center ">
             <li className="mr-4">
               <Link to="/">
-                <a className=" text-2xl font-bold hover-text-blue">HomePage</a>
+                <div className=" text-2xl font-bold hover-text-blue">HomePage</div>
               </Link>
 
             </li>
             <li className="mr-4">
               <Link to="/history">
-                <a className=" text-2xl font-bold hover-text-blue">History</a>
+                <div className=" text-2xl font-bold hover-text-blue">History</div>
               </Link>
             </li>
           </ul>
@@ -34,7 +34,7 @@ export default function Header() {
             </li>
             <li className="mr-4">
               <Link to="/mypage">
-                <a className=" text-xl font-bold">github.com</a>
+                <div className=" text-xl font-bold">github.com</div>
               </Link>
             </li>
           </ul>
