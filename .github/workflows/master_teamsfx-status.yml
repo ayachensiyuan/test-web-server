@@ -19,11 +19,6 @@ jobs:
       - name: Setup Deno
         uses: denoland/setup-deno@v1.1.0
 
-
-      - name: build, and test
-        run: |
-         deno task dev
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
