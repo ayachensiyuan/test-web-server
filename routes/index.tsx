@@ -5,7 +5,7 @@ import { reportCardInterface, testStatus } from "../utils/interface.d.ts"
 
 export const data = {
   async get(_: Request, _ctx: Context) {
-    const data = await fetch("http://localhost:3000/api/testdata")
+    const data = await fetch("http://localhost/api/testdata")
     return data
   }
 }

@@ -5,7 +5,7 @@ import { Link, useData } from "aleph/react";
 
 export const data = {
   async get(_: Request, _ctx: Context) {
-    const data = await fetch("http://localhost:3000/api/historydata")
+    const data = await fetch("http://localhost/api/historydata")
     return data
   }
 }

@@ -4,7 +4,7 @@ import { reportCardInterface, testCaseInterface } from "~/utils/interface.d.ts"
 import { useState } from "react"
 export const data = {
     async get(_req: Request, ctx: Context) {
-        const data = await fetch(`http://localhost:3000/api/todayreport?reportId=${ctx.params.reportId}`)
+        const data = await fetch(`http://localhost/api/todayreport?reportId=${ctx.params.reportId}`)
         return data
     }
 }
