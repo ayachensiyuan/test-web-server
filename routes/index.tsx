@@ -1,23 +1,18 @@
 import { Link, useData } from "aleph/react";
 import StatusCard from "../components/StatusCard.tsx";
 import ItemCard from "../components/ItemCard.tsx";
-// import { getDatafromAPI } from "../utils/apiHandler.ts";
-import { useState } from "react"
-
 import { reportCardInterface, testStatus } from "../utils/interface.d.ts"
 
 export const data = {
   async get(_: Request, _ctx: Context) {
     const data = await fetch("http://localhost:3000/api/testdata")
-
     return data
   }
-
 }
 
 export default function Index() {
 
-  const  {data}  = useData<{data: reportCardInterface[], reportResultStatus: testStatus, time: string}>();
+  const  {data}  = useData<{data: reportCardInterface[], reportResultStatus: testStatus, time: string}>()
 
   const mainStatusTitle = 'Current Status'
 

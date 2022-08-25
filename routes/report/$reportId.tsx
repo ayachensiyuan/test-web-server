@@ -1,6 +1,6 @@
 import { Link, useData } from "aleph/react"
 import { changeStatusIcon } from "~/utils/tools.ts"
-import { reportCardInterface } from "~/utils/interface.d.ts"
+import { reportCardInterface, testCaseInterface } from "~/utils/interface.d.ts"
 import { useState } from "react"
 export const data = {
     async get(_req: Request, ctx: Context) {
@@ -44,7 +44,7 @@ export default function report() {
                             </tr>
                         </thead>
                         <tbody className="text-center border-gray-300 text-sm">
-                            {testCases.map((item: any, index: number) => {
+                            {testCases.map((item: testCaseInterface, index: number) => {
                                 return (
                                     <tr className="h-10   hover:bg-gray-100 border-0.5 border-gray-200" key={item.caseId}>
                                         <td>              <span className="material-icons" style={{"color": item.statusIconColor}}>
