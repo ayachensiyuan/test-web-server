@@ -77,7 +77,7 @@
         {
             "testReportName": "vsc UI test",
             "testTotalStatus": "out_of_data",
-            "reportStatus": "EMPTY",
+            "reportStatus": "OUT_OF_DATA",
             "reportId": 2,
             "reportData": {}
         },
@@ -478,6 +478,6 @@
             }
         }
     ],
-    "reportResultStatus": "major_outage",
+    "reportResultStatus": "degraded_performance",
     "time": "2022-08-23"
 }

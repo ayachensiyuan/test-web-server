@@ -17,16 +17,16 @@ export default function Index() {
   const itemCards = data.data
 
   return (
-    <div >
+    <div className="dark:bg-gray-800 dark:text-white">
       {/* main */}
-      <div className="w-9/10 max-w-245 mx-auto relative md-top--28">
+      <div className="w-9/10 max-w-350 mx-auto relative md-top--28">
         {/* status card */}
         <StatusCard status={data.reportResultStatus} />
         <h1 className="text-3xl my-8 hover:cursor-default">{mainStatusTitle}</h1>
 
         {/* item card */}
         <div className="flex md-flex-wrap md-flex-row flex-col shadow-md shadow-gray-200">
-          {itemCards.map((item, index) => <ItemCard key={index} title={item.testReportName} status={item.testTotalStatus == 'out_of_data'?"major_outage":item.testTotalStatus} failedCasesNumber={item.reportData?.testCaseFailures || 0} reportID={item.reportId} />)}
+          {itemCards.map((item, index) => <ItemCard key={index} title={item.testReportName} status={item.testTotalStatus} failedCasesNumber={item.reportData?.testCaseFailures || 0} reportID={item.reportId} />)}
         </div>
 
         <hr className="mt-10 text-gray-200 border-1.5" />

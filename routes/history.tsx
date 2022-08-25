@@ -16,7 +16,7 @@ export default function Mypage() {
   const fakeList = data.fakeList
 
   return (
-    <div className="w-9/10 max-w-250 mx-auto  ">
+    <div className="w-9/10 max-w-350 mx-auto  ">
       <h1 className="text-3xl md-pb-8 pb-4 hover:cursor-default">{historyPageTitle}</h1>
       <div className="border-gray-200 border-1.5  bg-white shadow-md shadow-gray-200 ">
         <DatePicker timeList={[{ month: 'Aug', year: 2022 }, { month: 'Jul', year: 2022 }, { month: 'Jun', year: 2022 }, { month: 'May', year: 2022 },]} />

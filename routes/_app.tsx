@@ -6,7 +6,7 @@ export default function App({ children }: { children: React.ReactNode }) {
     <>
       <Header />
       <MyBanner />
-      <div >
+      <div className="dark:bg-gray-800 dark:text-white">
       {children}
       </div>
     </>

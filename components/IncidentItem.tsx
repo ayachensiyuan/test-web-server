@@ -26,9 +26,9 @@ export default function IncidentItem(opts: { eventTitle: string, eventSubTitle: 
         statusIcon = 'highlight_off'
     }
     textColor = baseClass + ' ' + textColor
-    
+
     return (
-        <div className=" border-b-1 border-l-3 border-gray-200  md-h-30 h-28">
+        <div className=" border-b-1 border-l-3 border-gray-200  md-h-30 h-28 ">
             <div className="rounded-full bg-orange-500 w-8 h-8 relative left--4 top-5">
                 <span className="material-icons pl-1 pt-1 text-white hover:cursor-default">
                     info

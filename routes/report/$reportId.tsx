@@ -18,7 +18,7 @@ export default function report() {
     const [testCases, changeCase] = useState(testCasesState)
 
     return (
-        <div className="w-9/10 max-w-250 mx-auto cursor-default">
+        <div className="w-9/10 max-w-350 mx-auto cursor-default">
             <h1 className="text-3xl md-pb-8 pb-4 ">{reportTitle}</h1>
             <h2 className="mb-5 text-lg text-gray-500">{new Date(Date.now()).toDateString()}</h2>
             <div className="border-gray-200 border-1.5   bg-white shadow-md shadow-gray-200 ">

@@ -32,7 +32,7 @@ export default function DatePicker(opts: { timeList: {month: string, year: numbe
     }
 
     return (
-        <div className=" flex w-90  h-10 md-mt-10 md-ml-10 my-7 justify-between items-center scale-90 md-scale-100">
+        <div className=" flex w-90  h-10 md-mt-10 md-ml-10 my-7 justify-between items-center scale-90 md-scale-100 dark:bg-gray-800 dark:text-white">
 
             <div className={leftPointClass} onClick={changeLeftArrow} >
                 <span className={currentCursor === 0?"material-icons text-gray-300":"material-icons"}>
