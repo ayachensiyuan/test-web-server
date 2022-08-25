@@ -1,6 +1,6 @@
 import { Link, useData } from "aleph/react"
-import { changeStatusIcon } from "~/utils/tools.ts"
-import { reportCardInterface, testCaseInterface } from "~/utils/interface.d.ts"
+import { changeStatusIcon } from "../../utils/tools.ts"
+import { reportCardInterface, testCaseInterface } from "../../utils/interface.d.ts"
 import { useState } from "react"
 export const data = {
     async get(_req: Request, ctx: Context) {

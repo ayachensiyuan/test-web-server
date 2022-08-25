@@ -1,4 +1,4 @@
-import { testCaseInterface } from "~/utils/interface.d.ts"
+import { testCaseInterface } from "./interface.d.ts"
 //     statusIcon = 'check_circle'
 //     statusIcon = 'report_problem'
 //     statusIcon = 'highlight_off'
