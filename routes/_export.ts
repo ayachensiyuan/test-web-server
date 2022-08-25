@@ -5,14 +5,20 @@ import * as $0 from "./_404.tsx";
 import * as $1 from "./_app.tsx";
 import * as $2 from "./index.tsx";
 import * as $3 from "./history.tsx";
-import * as $4 from "./report.tsx";
-import * as $5 from "./api/testdata.ts";
+import * as $4 from "./api/todayreportstatus.ts";
+import * as $5 from "./api/historydata.ts";
+import * as $6 from "./api/todayreport.ts";
+import * as $7 from "./api/testdata.ts";
+import * as $8 from "./report/$reportId.tsx";
 
 export default {
   "/_404": $0,
   "/_app": $1,
   "/": $2,
   "/history": $3,
-  "/report": $4,
-  "/api/testdata": $5,
+  "/api/todayreportstatus": $4,
+  "/api/historydata": $5,
+  "/api/todayreport": $6,
+  "/api/testdata": $7,
+  "/report/:reportId": $8,
 };

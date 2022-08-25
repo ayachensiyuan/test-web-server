@@ -1,8 +1,14 @@
 import { testStatus } from "../utils/interface.d.ts"
+import { useData } from "aleph/react"
+import { reportCardInterface } from "~/utils/interface.d.ts"
 /*
     type status = "operational" | "degraded_performance" | "partial_outage" | "major_outage" 
 */
+
+
 export default function StatusCard(opts: { status: testStatus}) {
+
+
     let bgColor = ''
     let statusText = ''
     let statusIcon = ''

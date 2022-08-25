@@ -1,29 +1,13 @@
-.angle {
-    border-left: 1px;
-    content: "123";
-    color:transparent;
-    border-bottom: 1px;
-    width: 4px;
-    height: 4px;
-    position: relative;
-    top: 2.5px;
-    left: -1px;
-    transform: rotate(45deg);
-    background: #fff;
-    border-color: #ccc;
-}
+data.testCases.map((item: any, index: number) => (<tr className="h-10   hover:bg-gray-100 border-0.5 border-gray-200"> <td>              <span className="material-icons error">
+                                highlight_off
+                            </span></td>
+                                <td className="hover:link cursor-pointer">{item.caseName}</td>
+                                <td className="hover:link cursor-pointer">{item.author}</td>
+                                <td className="">{item.caseDuration}</td>
+                                <td className="">{item.targetType}</td>
+                                <td className="">{item.coreVersion}</td>
+                                <td className="">method(> 20ms)</td>
+                                <td className="">{item.os}</td>
+                                <td className="">{item.nodeVersion}</td>
 
-.pointer {
-    border-left: 1px;
-    content: "123";
-    color:transparent;
-    border-bottom: 1px;
-    width: 4px;
-    height: 4px;
-    position: relative;
-    top: 2.5px;
-    left: -1px;
-    transform: rotate(45deg);
-    background: #fff;
-    border-color: #ccc;
-}
+                            </tr>))

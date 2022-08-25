@@ -4,6 +4,7 @@
             "testReportName": "CLI e2e test",
             "testTotalStatus": "degraded_performance",
             "reportStatus": "GET",
+            "reportId": 1,
             "reportData": {
                 "testTotalStatus": "degraded_performance",
                 "testCaseFailures": 5,
@@ -77,12 +78,14 @@
             "testReportName": "vsc UI test",
             "testTotalStatus": "out_of_data",
             "reportStatus": "EMPTY",
+            "reportId": 2,
             "reportData": {}
         },
         {
             "testReportName": "performance test",
             "testTotalStatus": "operational",
             "reportStatus": "GET",
+            "reportId": 3,
             "reportData": {
                 "testTotalStatus": "operational",
                 "testCaseFailures": 0,
@@ -157,6 +160,7 @@
             "testReportName": "vs UI test",
             "testTotalStatus": "major_outage",
             "reportStatus": "GET",
+            "reportId": 4,
             "reportData": {
                 "testTotalStatus": "major_outage",
                 "testCaseFailures": 8,
@@ -288,6 +292,7 @@
             "testReportName": "sdk e2e test",
             "testTotalStatus": "partial_outage",
             "reportStatus": "GET",
+            "reportId": 5,
             "reportData": {
                 "testTotalStatus": "partial_outage",
                 "testCaseFailures": 4,
@@ -344,6 +349,7 @@
             "testReportName": "CI/CD e2e test",
             "testTotalStatus": "operational",
             "reportStatus": "GET",
+            "reportId": 6,
             "reportData": {
                 "testTotalStatus": "operational",
                 "testCaseFailures": 0,
@@ -472,6 +478,6 @@
             }
         }
     ],
-    "reportResultStatus": "partial_outage",
+    "reportResultStatus": "major_outage",
     "time": "2022-08-23"
 }

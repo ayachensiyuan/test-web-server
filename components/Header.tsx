@@ -1,4 +1,4 @@
-import { Link } from "aleph/react";
+import { Link, NavLink } from "aleph/react";
 
 export default function Header() {
   return (
@@ -7,15 +7,15 @@ export default function Header() {
         <nav className="w-full md-w-auto">
           <ul className="flex items-center  justify-center ">
             <li className="mr-4">
-              <Link to="/">
-                <div className=" text-2xl font-bold hover-text-blue">HomePage</div>
-              </Link>
+              <NavLink activeClassName="text-blue" to="/">
+                <div  className=" text-2xl font-bold hover-text-blue">HomePage</div>
+              </NavLink>
 
             </li>
             <li className="mr-4">
-              <Link to="/history">
+              <NavLink activeClassName="text-blue" to="/history">
                 <div className=" text-2xl font-bold hover-text-blue">History</div>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </nav>
@@ -33,9 +33,9 @@ export default function Header() {
               </Link>
             </li>
             <li className="mr-4">
-              <Link to="/mypage">
+              <NavLink activeClassName="text-blue" to="/mypage">
                 <div className=" text-xl font-bold">github.com</div>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </nav>
