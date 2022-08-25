@@ -1,14 +1,9 @@
 import { testStatus } from "../utils/interface.d.ts"
-import { useData } from "aleph/react"
-import { reportCardInterface } from "~/utils/interface.d.ts"
 /*
     type status = "operational" | "degraded_performance" | "partial_outage" | "major_outage" 
 */
 
-
 export default function StatusCard(opts: { status: testStatus}) {
-
-
     let bgColor = ''
     let statusText = ''
     let statusIcon = ''
@@ -31,7 +26,6 @@ export default function StatusCard(opts: { status: testStatus}) {
         statusText = 'Oposss!!! Something went wrong...'
         statusIcon = 'highlight_off'
     }
-
     bgColor = baseClass + ' ' + bgColor
 
     return (
@@ -44,7 +38,6 @@ export default function StatusCard(opts: { status: testStatus}) {
                 </span>
                 </div>
                 <p className="text-xl font-bold">{statusText}</p>
-
             </div>
         </div>
     );

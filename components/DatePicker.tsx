@@ -47,7 +47,6 @@ export default function DatePicker(opts: { timeList: {month: string, year: numbe
                     arrow_forward_ios
                 </span>
             </div>
-
         </div>
-    );
+    )
 }

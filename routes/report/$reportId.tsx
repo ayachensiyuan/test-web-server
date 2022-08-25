@@ -8,17 +8,14 @@ export const data = {
         return data
     }
 }
-
 //     statusIcon = 'check_circle'
 //     statusIcon = 'report_problem'
 //     statusIcon = 'highlight_off'
 export default function report() {
     const reportTitle = 'Incident Report'
-
     const { data: report } = useData<reportCardInterface>()
     const testCasesState = changeStatusIcon(report.reportData?.testCases) || []
     const [testCases, changeCase] = useState(testCasesState)
-    console.log(testCases)
 
     return (
         <div className="w-9/10 max-w-250 mx-auto cursor-default">
@@ -26,7 +23,6 @@ export default function report() {
             <h2 className="mb-5 text-lg text-gray-500">{new Date(Date.now()).toDateString()}</h2>
             <div className="border-gray-200 border-1.5   bg-white shadow-md shadow-gray-200 ">
                 <div className="">
-
                     <table className="table-auto w-full border-collapse border-1 border-gray-300 ">
                         <thead className="text-center  text-gray-600 text-sm">
                             <tr className="h-10">
@@ -44,6 +40,7 @@ export default function report() {
                             </tr>
                         </thead>
                         <tbody className="text-center border-gray-300 text-sm">
+                            {/* testcases */}
                             {testCases.map((item: testCaseInterface, index: number) => {
                                 return (
                                     <tr className="h-10   hover:bg-gray-100 border-0.5 border-gray-200" key={item.caseId}>
@@ -52,16 +49,13 @@ export default function report() {
                                         </span></td>
                                         <td >
                                             <Link className="hover:link cursor-pointer" to={item.caseURL || '/'}>
-
                                                 {item.caseName}
                                             </Link>
                                         </td>
-
                                         <td className="hover:link cursor-pointer">
                                             <a href={`mailto:${item.author}`}>
                                                 {item.author}
                                             </a>
-
                                         </td>
                                         <td>{item.caseDuration}</td>
                                         <td>{item.targetType}</td>
@@ -72,12 +66,10 @@ export default function report() {
                                     </tr>
                                 )
                             })}
-
                         </tbody>
                     </table>
                     {testCases.length == 0 ? <div className="text-center my-5 text-5">out of data</div> : null}
                 </div>
-
             </div>
             <div className="flex justify-end mb-20 pr-3">
                 <Link className="flex no-wrap " to="/">
@@ -85,8 +77,6 @@ export default function report() {
                     <span className="border-r-2 text-transparent border-b-2 w-2 h-2 border-blue-600 rotate--45 relative top-9.5 left-2 "></span>
                 </Link>
             </div>
-
-
         </div>
     )
 }

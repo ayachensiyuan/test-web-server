@@ -7,7 +7,6 @@ export default function App({ children }: { children: React.ReactNode }) {
       <Header />
       <MyBanner />
       <div >
-
       {children}
       </div>
     </>

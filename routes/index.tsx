@@ -11,13 +11,10 @@ export const data = {
 }
 
 export default function Index() {
-
   const  {data}  = useData<{data: reportCardInterface[], reportResultStatus: testStatus, time: string}>()
 
   const mainStatusTitle = 'Current Status'
-
   const itemCards = data.data
-  console.log(itemCards)
 
   return (
     <div >
@@ -41,10 +38,7 @@ export default function Index() {
             <span className="border-r-2 text-transparent border-b-2 w-2 h-2 border-blue-600 rotate--45 relative top-9.5 left-2 "></span>
           </Link>
         </div>
-
       </div>
-
     </div>
-
-  );
+  )
 }
