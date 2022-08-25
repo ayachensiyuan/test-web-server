@@ -1,7 +1,7 @@
 import { reportCardInterface } from "../../utils/interface.d.ts"
 export const GET = async (request: Request) => {
     const id = new URL(request.url).searchParams.get('reportId')
-    const data = await Deno.readTextFile('web-server/fakeData.json')
+    const data = await Deno.readTextFile('test-web-server/fakeData.json')
     const jsonData = JSON.parse(data)
     let target:reportCardInterface = {
         testReportName: "",
