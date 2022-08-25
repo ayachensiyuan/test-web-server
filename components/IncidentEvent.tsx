@@ -6,16 +6,16 @@ import IncidentItem from "./IncidentItem.tsx"
 export default function IncidentEvent(opts: {eventList: eventListInterface[], month: string}) {
     
     const eventList:eventListInterface[] = opts.eventList
-    const [isShown, toggleShow] = useState(false)
+    const [isShown, toggleShow] = useState(true)
     const toggleShowHandler = () => {
         toggleShow(!isShown)
     }
     
     return (
-        <div className="md-px-10 px-7 font-400">
+        <div className="md-px-10 px-7 font-400 ">
             <h2 className="text-7 hover:cursor-default">{opts.month}</h2>
             <hr className="mt-2 text-gray-200 border-0.5" />
-            <div className="px-5">
+            <div className={isShown?` h-90 overflow-hidden px-5`:`px-5`}>
                 {eventList.map((event, index) => <IncidentItem key={index} eventTitle={event.eventTitle} eventSubTitle={event.eventSubTitle} eventTime={event.eventTime} status={event.status} />)}
  
             </div>

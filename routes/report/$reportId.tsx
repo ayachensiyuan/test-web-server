@@ -14,12 +14,12 @@ export const data = {
 //     statusIcon = 'highlight_off'
 export default function report() {
     const reportTitle = 'Incident Report'
-    
+
     const { data: report } = useData<reportCardInterface>()
     const testCasesState = changeStatusIcon(report.reportData?.testCases) || []
     const [testCases, changeCase] = useState(testCasesState)
     console.log(testCases)
-    
+
     return (
         <div className="w-9/10 max-w-250 mx-auto cursor-default">
             <h1 className="text-3xl md-pb-8 pb-4 ">{reportTitle}</h1>
@@ -47,12 +47,22 @@ export default function report() {
                             {testCases.map((item: testCaseInterface, index: number) => {
                                 return (
                                     <tr className="h-10   hover:bg-gray-100 border-0.5 border-gray-200" key={item.caseId}>
-                                        <td>              <span className="material-icons" style={{"color": item.statusIconColor}}>
+                                        <td>              <span className="material-icons" style={{ "color": item.statusIconColor }}>
                                             {item.statusIcon}
                                         </span></td>
-                                        <td className="hover:link cursor-pointer">{item.caseName}</td>
+                                        <td >
+                                            <Link className="hover:link cursor-pointer" to={item.caseURL || '/'}>
 
-                                        <td className="hover:link cursor-pointer">{item.author}</td>
+                                                {item.caseName}
+                                            </Link>
+                                        </td>
+
+                                        <td className="hover:link cursor-pointer">
+                                            <a href={`mailto:${item.author}`}>
+                                                {item.author}
+                                            </a>
+
+                                        </td>
                                         <td>{item.caseDuration}</td>
                                         <td>{item.targetType}</td>
                                         <td>{item.coreVersion}</td>
@@ -65,7 +75,7 @@ export default function report() {
 
                         </tbody>
                     </table>
-                    {testCases.length==0?<div className="text-center my-5 text-5">out of data</div>:null}
+                    {testCases.length == 0 ? <div className="text-center my-5 text-5">out of data</div> : null}
                 </div>
 
             </div>

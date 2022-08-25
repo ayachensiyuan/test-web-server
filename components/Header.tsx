@@ -33,8 +33,8 @@ export default function Header() {
               </Link>
             </li>
             <li className="mr-4">
-              <NavLink activeClassName="text-blue" to="/mypage">
-                <div className=" text-xl font-bold">github.com</div>
+              <NavLink activeClassName="text-blue" to="https://github.com/officedev/teamsfx">
+                <div className=" text-xl font-bold">Microsoft Teams Toolkit</div>
               </NavLink>
             </li>
           </ul>

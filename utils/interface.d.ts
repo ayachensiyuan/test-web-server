@@ -22,6 +22,7 @@ export type testCaseInterface = {
     caseEndTime?: number,
     statusIcon?: "check_circle" | "report_problem" | "highlight_off",
     statusIconColor?: "green" | "red" | "yellow"
+    caseURL?: string
 }
 
 export type reportDataInterface = {
