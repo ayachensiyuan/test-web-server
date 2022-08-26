@@ -1,4 +1,5 @@
 import { testCaseInterface } from "./interface.d.ts"
+import { config } from 'dotenv'
 //     statusIcon = 'check_circle'
 //     statusIcon = 'report_problem'
 //     statusIcon = 'highlight_off'
@@ -19,3 +20,25 @@ export const changeStatusIcon = (caseItems?: testCaseInterface[]) => {
     return caseItems
     }
 }
+
+export const getEnv = (key: string) => {
+    if(Deno.env.get(key)) {
+        return Deno.env.get(key) as string
+    } else {
+        config({
+            path: './test-web-server/.env',
+            export: true
+        })
+        return Deno.env.get(key) as string
+    }
+}
+
+export const verifyToken = (headers: Headers) => {
+    const token = headers.get('authorization')?.split(' ')[1]
+    if(token === getEnv("ACCESS_TOKEN")) {
+        return true
+    } else {
+        return false
+    }
+}
+
