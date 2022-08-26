@@ -3,6 +3,9 @@ export const GET = async (request: Request) => {
     const id = new URL(request.url).searchParams.get('reportId')
     const data = await Deno.readTextFile('test-web-server/fakeData.json')
     const jsonData = JSON.parse(data)
+
+    console.log(Deno.env.toObject())
+
     let target:reportCardInterface = {
         testReportName: "",
         testTotalStatus: "operational",
