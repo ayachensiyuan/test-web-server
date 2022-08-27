@@ -4,7 +4,7 @@ import { CaseSchema, TestSchema, MochawesomeData, ReportSchema } from '../../uti
 
 const cleanReport = (data: MochawesomeData) => {
     const report: ReportSchema = {
-        
+
     }
     return report
 }
@@ -77,21 +77,36 @@ export const POST = async (request: Request) => {
         const testCase = cleanData(data)
         const mongo = new Mongo()
         await mongo.connect()
-        const results = await mongo.insertOne('testcases', testCase)
 
-        // update reports
-        const report = cleanReport(data)
-        await mongo.updateOne('reports',{runid: 'XXX'}, {...report})
+        // is unique case by jobId and parentRunId
+        // if (!await mongo.isUniqueCase(testCase)) {
+            const results = await mongo.insertOne('testcases', testCase)
 
-        mongo.close()
+            // update reports
+            // const report = cleanReport(data)
+            // await mongo.updateOne('reports',{runid: 'XXX'}, {...report})
 
-        return new Response(JSON.stringify(results), {
-            headers: {
-                'content-type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            status: 200
-        })
+            mongo.close()
+
+            return new Response(JSON.stringify(results), {
+                headers: {
+                    'content-type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                status: 200
+            })
+        // } else {
+        //     mongo.close()
+        //     return new Response(JSON.stringify({
+        //         message: 'Case already exists'
+        //     }), {
+        //         headers: {
+        //             'content-type': 'application/json',
+        //             'Access-Control-Allow-Origin': '*'
+        //         },
+        //         status: 400
+        //     })
+        // }
     } else {
         return new Response(JSON.stringify({ errMsg: 'unauthorization !!!' }), {
             headers: {
