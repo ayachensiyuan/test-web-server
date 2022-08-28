@@ -31,11 +31,11 @@ const updateReport = async (testCase: CaseSchema, db: Mongo) => {
             // update report
             console.log('update report...')
             const report = result.data as ReportSchema
-            report.passes = testCase.state === 'pass' ? report.passes++ : 0
-            report.failures = testCase.state === 'fail' ? report.failures++ : 0
-            report.pending = testCase.state === 'pending' ? report.pending++ : 0
+            report.passes = testCase.state === 'pass' ? ++report.passes : report.passes
+            report.failures = testCase.state === 'fail' ? ++report.failures : report.failures
+            report.pending = testCase.state === 'pending' ? ++report.pending : report.pending
             report.cases.push(testCase)
-            report.casesCount = report.casesCount++
+            report.casesCount = ++report.casesCount
             report.reportEndTime = testCase.end
             report.duration = report.reportEndTime.getTime() - report.reportStartTime.getTime()
 
@@ -131,9 +131,7 @@ export const POST = async (request: Request) => {
             const res = await mongo.insertOne('testcases', testCase)
 
             // update reports
-            const isReportUpdate = await updateReport(testCase, mongo)
-            console.log(isReportUpdate)
-
+            await updateReport(testCase, mongo)
             mongo.close()
 
             return new Response(JSON.stringify({ ...res, errMsg: 'ok' }), {
