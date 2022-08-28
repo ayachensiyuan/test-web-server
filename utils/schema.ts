@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { ObjectId } from "mongodb/dep"
 import { testStatus } from "./interface.d.ts";
 

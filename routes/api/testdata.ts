@@ -1,4 +1,3 @@
-import Mongo from '../../utils/mongodb.ts'
 export const GET = async () => {
     // const mongo = new Mongo()
     // mongo.connect()

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { MongoClient, Database } from "mongodb"
 import { Fields, aggregateOptions } from "./schema.ts"
 import { getEnv } from "./tools.ts"
