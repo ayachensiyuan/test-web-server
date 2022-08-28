@@ -115,9 +115,9 @@ class Mongo {
             if (collection) {
                 const result = await collection.findOne(filter)
                 if (result) {
-                    return { state: 'success', result }
+                    return { state: 'success', data: result }
                 } else {
-                    return { state: 'fail', error: 'data not found' }
+                    return { state: 'fail', error: 'data not found'}
                 }
             } else {
                 return { state: 'fail', error: 'collection not found' }
@@ -134,7 +134,7 @@ class Mongo {
             if (collection) {
                 const result = await collection.find(filter).toArray()
                 if (result.length) {
-                    return { state: 'success', result, count: result.length }
+                    return { state: 'success', data: result, count: result.length }
                 } else {
                     return { state: 'fail', error: 'data not found' }
                 }

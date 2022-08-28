@@ -11,6 +11,7 @@ import * as $6 from "./api/todayreport.ts";
 import * as $7 from "./api/testdata.ts";
 import * as $8 from "./api/testCase.ts";
 import * as $9 from "./report/$reportId.tsx";
+import * as $10 from "./api/report/$reportId.ts";
 
 export default {
   "/_404": $0,
@@ -23,4 +24,5 @@ export default {
   "/api/testdata": $7,
   "/api/testCase": $8,
   "/report/:reportId": $9,
+  "/api/report/:reportId": $10,
 };

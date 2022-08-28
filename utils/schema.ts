@@ -7,6 +7,15 @@ export interface UserSchema {
   password: string;
 }
 
+export enum reportNameEnum {
+  '01' = 'CLI e2e test',
+  '02' = 'vsx UI test',
+  '03' = 'performance test',
+  '04' = 'vs UI test',
+  '05' = 'sdk e2e test',
+  '06' = 'CI/CD e2e test'
+}
+
 export interface TestSchema {
   uuid: string;
   parentUUID: string;
@@ -43,8 +52,8 @@ export interface CaseSchema {
   title: string;
   fullFile: string;
   file: string;
-  start: string;
-  end: string;
+  start: Date;
+  end: Date;
   state: 'pass' | 'fail' | 'pending';
   passes: string[],
   failures: string[],
@@ -56,31 +65,35 @@ export interface CaseSchema {
   author: string;
   caseURL: string;
   jobId: string;
-  parentRunId: string;
+  runId: string;
+  reportId: '01' | '02' | '03' | '04' | '05' | '06';
   coreVersion: "V1/V2" | "V3";
   //from github
   os: "linux" | "windows" | "mac";
   nodeVersion: "v14" | "v16"
-  targetType: "TS/JS" | "TS" | "JS";
+  targetType: "TS/JS" | ".NET";
   slowMethod: number;
+  on: 'schedule' | 'workflow_dispatch' | 'pull_request';
 }
 
 export interface ReportSchema {
   // from github
-  runid: string;
+  runId: string;
+  on: 'schedule' | 'workflow_dispatch' | 'pull_request';
   // from mochawesome
   passes: number;
   failures: number;
   pending: number;
-  duration: number;
   cases: CaseSchema[];
   // custom fields
   reportName: string;
   reportState: "GET" | "OUT_OF_DATA";
-  reportId: number;
+  reportId: string;
   reportStatus?: testStatus;
   reportDate: string;
-  reportTime: string;
+  reportStartTime: Date;
+  reportEndTime: Date;
+  duration: number;
   casesCount: number;
 }
 
@@ -107,7 +120,7 @@ interface Hooks {
   fullTitle: string;
   timeOut: number;
   duration: number;
-  state: 'pass' | 'fail' | 'pending'| null;
+  state: 'pass' | 'fail' | 'pending' | null;
   speed: number | null;
   pass: boolean;
   pending: boolean;
@@ -125,8 +138,24 @@ interface Hooks {
   skiped: boolean;
 }
 
+export interface GithubData {
+  author: string;
+  caseURL: string;
+  jobId: string;
+  runId: string;
+  coreVersion: "V1/V2" | "V3";
+  //from github
+  os: "linux" | "windows" | "mac";
+  nodeVersion: "v14" | "v16"
+  targetType: "TS/JS" | ".NET";
+  slowMethod: number;
+  runjobDuration: number;
+  reportId: '01' | '02' | '03' | '04' | '05' | '06';
+  on: 'schedule' | 'workflow_dispatch' | 'pull_request';
+}
+
 export interface MochawesomeData {
-  stats:{
+  stats: {
     suites: number;
     tests: number;
     passes: number;
