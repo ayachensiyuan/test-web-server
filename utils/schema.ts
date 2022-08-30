@@ -48,44 +48,54 @@ export interface MetaSchema {
 }
 
 export interface CaseSchema {
-  // from mochawesome
-  uuid: string;
-  title: string;
-  fullFile: string;
-  file: string;
-  start: Date;
-  end: Date;
-  state: 'pass' | 'fail' | 'pending';
-  passes: string[],
-  failures: string[],
-  pending: string[],
-  duration: number;
-  tests: TestSchema[];
-  meta: MetaSchema;
-  // custom fields
-  author: string;
-  caseURL: string;
-  jobId: string;
-  runId: string;
-  reportId: '01' | '02' | '03' | '04' | '05' | '06';
-  coreVersion: "V1/V2" | "V3";
-  //from github
-  os: "linux" | "windows" | "mac";
-  nodeVersion: "v14" | "v16"
-  targetType: "TS/JS" | ".NET";
-  slowMethod: number;
-  on: 'schedule' | 'workflow_dispatch' | 'pull_request';
+  // from basic data
+  basic: {
+    author?: string;
+    title: string;
+    uploadTime?: Date;
+    reportId: '01' | '02' | '03' | '04' | '05' | '06';
+    reportName?: string;
+  };
+  // from git data
+  git: {
+    orginazation?: string;
+    repository?: string;
+    commit?: string;
+    author?: string;
+    branch?: string;
+    date?: Date;
+  };
+  // from github data
+  github?: {
+    os?: string;
+    nodeVersion?: string;
+    targetType?: string;
+    on: string;
+    coreVersion?: string;
+    jobId: string;
+    runId: string;
+    caseURL?: string;
+    duration?: number;
+    slowMethod?: number;
+  };
+  // from mochawesome data
+  mochawesome?: MochawesomeData;
+  azure?: {[key: string]: any};
 }
 
 export interface ReportSchema {
-  // from github
-  runId: string;
-  on: 'schedule' | 'workflow_dispatch' | 'pull_request';
+  // from github runtime
+  github?: {
+    runId: string;
+    on: 'schedule' | 'workflow_dispatch' | 'pull_request';
+  }
   // from mochawesome
-  passes: number;
-  failures: number;
-  pending: number;
-  cases: CaseSchema[];
+  mochawesome?: {
+    passes: number;
+    failures: number;
+    pending: number;
+    cases: CaseSchema[];
+  }
   // custom fields
   reportName: string;
   reportState: "GET" | "OUT_OF_DATA";
@@ -139,24 +149,42 @@ interface Hooks {
   skiped: boolean;
 }
 
+export interface GitData {
+  orginazation?: string;
+  repository?: string;
+  commit?: string;
+  author?: string;
+  branch?: string;
+  date?: Date;
+}
+
+export interface TestCaseData {
+  author?: string;
+  title: string;
+  uploadTime?: Date;
+  reportId: '01' | '02' | '03' | '04' | '05' | '06';
+  reportName?: string;
+}
+
 export interface GithubData {
-  author: string;
   caseURL: string;
   jobId: string;
   runId: string;
   coreVersion: "V1/V2" | "V3";
-  //from github
   os: "linux" | "windows" | "mac";
   nodeVersion: "v14" | "v16"
   targetType: "TS/JS" | ".NET";
   slowMethod: number;
-  runjobDuration: number;
-  reportId: '01' | '02' | '03' | '04' | '05' | '06';
+  duration: number;
   on: 'schedule' | 'workflow_dispatch' | 'pull_request';
 }
 
+export interface AzureData {
+  [key: string]: any;
+}
+
 export interface MochawesomeData {
-  stats: {
+  stats?: {
     suites: number;
     tests: number;
     passes: number;
@@ -177,36 +205,36 @@ export interface MochawesomeData {
     title: string;
     fullFile: string;
     file: string;
-    beforeHooks: string[];
-    afterHooks: string[];
-    tests: TestSchema[];
+    beforeHooks?: string[];
+    afterHooks?: string[];
+    tests?: TestSchema[];
     suites: {
       uuid: string;
       title: string;
       fullFile: string;
       file: string;
-      beforeHooks: Hooks[];
-      afterHooks: Hooks[];
+      beforeHooks?: Hooks[];
+      afterHooks?: Hooks[];
       tests: Hooks[];
       passes: string[];
       failures: string[];
-      pending: string[];
+      pending?: string[];
       skipped: string[];
       duration: number;
-      root: boolean;
-      rootEmpty: boolean;
-      _timeout: number;
+      root?: boolean;
+      rootEmpty?: boolean;
+      _timeout?: number;
     }[];
     passes: string[];
     failures: string[];
-    pending: string[];
-    skipped: string[];
+    pending?: string[];
+    skipped?: string[];
     duration: number;
-    root: boolean;
-    rootEmpty: boolean;
-    _timeout: number;
+    root?: boolean;
+    rootEmpty?: boolean;
+    _timeout?: number;
   }[],
-  meta: {
+  meta?: {
     mocha: {
       version: string;
     },
@@ -234,7 +262,7 @@ export interface MochawesomeData {
   coreVersion: "V1/V2" | "V3";
   os: "linux" | "windows" | "mac";
   nodeVersion: "v14" | "v16"
-  targetType: "TS/JS" | "TS" | "JS";
+  targetType: "TS/JS" | ".NET";
   slowMethod: number;
 }
 
