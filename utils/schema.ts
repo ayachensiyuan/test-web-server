@@ -1,12 +1,5 @@
-// deno-lint-ignore-file no-explicit-any
 import { ObjectId } from "mongodb/dep"
-import { testStatus } from "./interface.d.ts";
-
-export interface UserSchema {
-  _id?: ObjectId;
-  username: string;
-  password: string;
-}
+export type testStatus = "operational" | "degraded_performance" | "partial_outage" | "major_outage" | "out_of_data"
 
 export enum reportNameEnum {
   '01' = 'CLI e2e test',
@@ -47,6 +40,7 @@ export interface MetaSchema {
   }
 }
 
+//database schema
 export interface CaseSchema {
   // from basic data
   basic: {
@@ -81,33 +75,18 @@ export interface CaseSchema {
   // from mochawesome data
   mochawesome?: MochawesomeData;
   azure?: {[key: string]: any};
+  status?: testStatus;
+  testCaseFailures?: number;
+  _id?: ObjectId;
 }
 
 export interface ReportSchema {
-  // from github runtime
-  github?: {
-    runId: string;
-    on: 'schedule' | 'workflow_dispatch' | 'pull_request';
-  }
-  // from mochawesome
-  mochawesome?: {
-    passes: number;
-    failures: number;
-    pending: number;
-    cases: CaseSchema[];
-  }
-  // custom fields
-  reportName: string;
-  reportState: "GET" | "OUT_OF_DATA";
-  reportId: string;
-  reportStatus?: testStatus;
-  reportDate: string;
-  reportStartTime: Date;
-  reportEndTime: Date;
-  duration: number;
-  casesCount: number;
+  reportId: '01' | '02' | '03' | '04' | '05' | '06';
+  reportName: reportNameEnum;
+  reportResultStatus: testStatus;
+  testCaseFailures?: number;
+  reportCases: CaseSchema[];
 }
-
 
 export interface Fields {
   [key: string]: any;
@@ -265,4 +244,6 @@ export interface MochawesomeData {
   targetType: "TS/JS" | ".NET";
   slowMethod: number;
 }
+
+
 

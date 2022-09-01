@@ -1,32 +1,32 @@
-import { Link, useData } from "aleph/react";
-import StatusCard from "../components/StatusCard.tsx";
-import ItemCard from "../components/ItemCard.tsx";
-import { reportCardInterface, testStatus } from "../utils/interface.d.ts"
+import { Link, useData, useForwardProps } from "aleph/react";
+import StatusCard from "~/components/StatusCard.tsx"
+import ItemCard from "~/components/ItemCard.tsx"
+import { ReportSchema, testStatus, reportNameEnum } from "~/utils/schema.ts";
+import { getReportStatus, initItemCards } from "~/utils/tools.ts"
 
-export const data = {
-  async get(_: Request, _ctx: Context) {
-    const data = await fetch("http://localhost/api/testdata")
-    return data
-  }
-}
-
-export default function Index() {
-  const  {data}  = useData<{data: reportCardInterface[], reportResultStatus: testStatus, time: string}>()
-
+export default function Index(): JSX.Element {
+  const { data } = useForwardProps<{ data: { errMsg: string, reportList: ReportSchema[] } }>()
+  const indexData: { totalStatus: testStatus, reportList: ReportSchema[] } = getReportStatus(data.reportList)
+  
   const mainStatusTitle = 'Current Status'
-  const itemCards = data.data
+  const itemCards = initItemCards(indexData.reportList)
+  itemCards.forEach(item => {
+    localStorage.setItem(item.reportId, JSON.stringify(item))
+  })
+  // console.log(itemCards)
 
   return (
     <div className="dark:bg-gray-800 dark:text-white">
       {/* main */}
+
       <div className="w-9/10 max-w-350 mx-auto relative md-top--28">
         {/* status card */}
-        <StatusCard status={data.reportResultStatus} />
+        <StatusCard status={indexData.totalStatus} />
         <h1 className="text-3xl my-8 hover:cursor-default">{mainStatusTitle}</h1>
 
         {/* item card */}
         <div className="flex md-flex-wrap md-flex-row flex-col shadow-md shadow-gray-200">
-          {itemCards.map((item, index) => <ItemCard key={index} title={item.testReportName} status={item.testTotalStatus} failedCasesNumber={item.reportData?.testCaseFailures || 0} reportID={item.reportId} />)}
+          {itemCards.map(item => <ItemCard key={item.reportId} title={item.reportName} status={item.reportResultStatus} failedCasesNumber={item.testCaseFailures || 0} reportID={item.reportId} />)}
         </div>
 
         <hr className="mt-10 text-gray-200 border-1.5" />

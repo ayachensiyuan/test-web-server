@@ -1,10 +1,10 @@
-import { testStatus } from "../utils/interface.d.ts"
+import { reportNameEnum, testStatus } from "~/utils/schema.ts"
 import { Link } from "aleph/react"
 import { useState } from "react"
 /*
     type status = "operational" | "degraded_performance" | "partial_outage" | "major_outage" 
 */
-export default function ItemCard(opts: { status: testStatus, title: string,  reportID: number, failedCasesNumber: number}) {
+export default function ItemCard(opts: { status: testStatus, title: string,  reportID: '01' | '02' | '03' | '04' | '05' | '06', failedCasesNumber: number}) {
     let bgColor = ''
     let statusIcon = ''
     const status = opts.status
@@ -36,7 +36,7 @@ export default function ItemCard(opts: { status: testStatus, title: string,  rep
         <div className="bg-white border-gray-300  border-0.5 md-w-1/2 h-23 px-5 flex justify-center flex-col hover:bg-gray-100 dark:bg-gray-800 dark:text-white" >
             <div className="flex justify-between">
                 <div className="flex items-center">
-                    <Link className="text-4.5 mr-3 hover:cursor-pointer hover:text-blue hover:underline " to={'/report/'+ opts.reportID} >{opts.title}</Link>
+                    <Link className={`text-4.5 mr-3 ${status!=='out_of_data'? 'hover:cursor-pointer hover:text-blue hover:underline':'hover:cursor-default'}`} to={status!=='out_of_data'?`/report/${opts.reportID}`:'/'} >{opts.title}</Link>
                     <span className="material-icons text-gray-400 scale-80 hover:text-gray-800 hover:cursor-pointer " onMouseOver={toggleTips} onMouseLeave={toggleTips}>
                         help_outline
                     </span>
