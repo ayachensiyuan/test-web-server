@@ -11,8 +11,8 @@ export const GET = async (req: Request) => {
         console.log('search today\'s report')
         const reportList = []
 
-        const result = await mongo.findMany('CLI e2e test', { 'git.date': '2022-08-31', 'github.on': 'schedule' })
-        // const result = await mongo.findMany('CLI e2e test', { 'git.date': getToday(), 'github.on': 'schedule' })
+        // const result = await mongo.findMany('CLI e2e test', { 'git.date': '2022-08-31', 'github.on': 'schedule' })
+        const result = await mongo.findMany('CLI e2e test', { 'git.date': getToday(), 'github.on': 'schedule' })
         if (result.state === 'success') {
 
             reportList.push({ reportName: 'CLI e2e test', reportId: '01', reportCases: result.data })

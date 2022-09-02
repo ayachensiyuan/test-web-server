@@ -1,14 +1,24 @@
 import { Link, useData, useRouter } from "aleph/react"
-import { changeStatusIcon } from "../../utils/tools.ts"
-import { reportCardInterface, testCaseInterface } from "../../utils/interface.d.ts"
+import { changeStatusIcon } from "~/utils/tools.ts"
 import { useState, useEffect } from "react"
+import { ReportSchema } from "~/utils/schema.ts"
 
 export const data = {
   get(_req: Request, ctx: Context) {
     const data = localStorage.getItem(ctx.params.reportId)
-    if (data) {
-      return JSON.parse(data)
-    } else return
+    if(data){
+      const jsonData:ReportSchema = JSON.parse(data)
+      if (jsonData.reportResultStatus !== 'out_of_data') {
+        return {
+          data: jsonData,
+          errMsg: 'ok'
+        }
+      } else {
+        return { errMsg: 'out_of_data' }
+      }
+    } else {
+      return { errMsg: 'out_of_data' }
+    }
   }
 }
 //     statusIcon = 'check_circle'
@@ -16,14 +26,17 @@ export const data = {
 //     statusIcon = 'highlight_off'
 export default function report() {
   const reportTitle = 'Incident Report'
-  const { data } = useData()
+  const { data } = useData<{errMsg: string, data: ReportSchema}>()
+  const [reportCases, changeCases] = useState([])
   useEffect(()=>{
-    if(!data) {
+    if(data.errMsg === 'out_of_data') {
       useRouter().redirect('/')
+    } else {
+      changeCases(changeStatusIcon(data.data.reportCases) || [])
     }
-  }, [])
+  }, []) 
   
-  const reportCases = changeStatusIcon(data.reportCases)
+  
 
   return (
     <div className="w-9/10 max-w-350 mx-auto cursor-default">

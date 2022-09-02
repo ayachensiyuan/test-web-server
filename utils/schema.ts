@@ -78,6 +78,8 @@ export interface CaseSchema {
   status?: testStatus;
   testCaseFailures?: number;
   _id?: ObjectId;
+  statusIcon?: string;
+  statusIconColor?: string;
 }
 
 export interface ReportSchema {
@@ -85,7 +87,7 @@ export interface ReportSchema {
   reportName: reportNameEnum;
   reportResultStatus: testStatus;
   testCaseFailures?: number;
-  reportCases: CaseSchema[];
+  reportCases?: CaseSchema[];
 }
 
 export interface Fields {

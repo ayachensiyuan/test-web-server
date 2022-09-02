@@ -1,10 +1,10 @@
-import { ReportSchema, testStatus, reportNameEnum } from "~/utils/schema.ts";
+import { ReportSchema, testStatus, reportNameEnum, CaseSchema } from "~/utils/schema.ts";
 import { config } from 'dotenv'
 //     statusIcon = 'check_circle'
 //     statusIcon = 'report_problem'
 //     statusIcon = 'highlight_off'
-export const changeStatusIcon = (caseItems?: testCaseInterface[]) => {
-  if (caseItems) {
+export const changeStatusIcon = (caseItems?: CaseSchema[]) => {
+  if (caseItems.length != 0) {
     for (let i = 0; i < caseItems.length; i++) {
       if (caseItems[i].status == 'operational') {
         caseItems[i].statusIcon = 'check_circle'

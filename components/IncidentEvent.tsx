@@ -1,10 +1,9 @@
-import { eventListInterface } from "../utils/interface.d.ts"
 import { useState } from "react"
 
 import IncidentItem from "./IncidentItem.tsx"
 
-export default function IncidentEvent(opts: {eventList: eventListInterface[], month: string}) {
-    const eventList:eventListInterface[] = opts.eventList
+export default function IncidentEvent(opts: {eventList, month: string}) {
+    const eventList = opts.eventList
     const [isShown, toggleShow] = useState(true)
     const toggleShowHandler = () => {
         toggleShow(!isShown)

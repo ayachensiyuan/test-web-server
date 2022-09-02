@@ -1,6 +1,5 @@
 import DatePicker from "../components/DatePicker.tsx"
 import IncidentEvent from "../components/IncidentEvent.tsx"
-import { eventListInterface } from "../utils/interface.d.ts"
 import { Link, useData } from "aleph/react";
 
 export const data = {
