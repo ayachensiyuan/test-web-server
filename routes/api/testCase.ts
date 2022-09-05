@@ -69,7 +69,7 @@ export const POST = async (request: Request) => {
     }
 
     // format basic 
-    if (!basic.title || !basic.reportId) {
+    if ( !basic.reportId) {
       return new Response(JSON.stringify({
         state: 'fail',
         error: 'invilid data'
