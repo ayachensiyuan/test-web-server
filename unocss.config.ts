@@ -10,7 +10,7 @@ export default <UserConfig> {
 
 
   rules: [
-    ['bg-banner', { 'background-image': 'url(https://user-images.githubusercontent.com/19292210/60553863-044dd200-9cea-11e9-987e-7db84449f215.png)' }],
+    ['bg-banner', { 'background-image': 'url(./assets/pexels-salvatore-de-lellis-9683980.jpg)' }],
   ],
   shortcuts: {
     'bg-success': 'bg-lime-300 ',

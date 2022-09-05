@@ -1,6 +1,6 @@
-import Mongo from '../../utils/mongodb.ts'
-import { verifyToken } from '../../utils/tools.ts'
-import { CaseSchema, MochawesomeData, GithubData, reportNameEnum, GitData, TestCaseData, AzureData } from '../../utils/schema.ts'
+import Mongo from '~/utils/mongodb.ts'
+import { verifyToken, getToday, updateRuntime } from '~/utils/tools.ts'
+import { CaseSchema, MochawesomeData, GithubData, reportNameEnum, GitData, TestCaseData, AzureData } from '~/utils/schema.ts'
 
 // const updateReport = async (testCase: CaseSchema, db: Mongo) => {
 //   const result = await db.findOne('reports', { runId: testCase.github.runId })
@@ -83,7 +83,7 @@ export const POST = async (request: Request) => {
     }
 
     basic.uploadTime = new Date()
-    basic.author = git.author || 'unknown'
+    basic.author = basic.author || 'unknown'
     basic.reportName = reportNameEnum[basic.reportId]
 
     // format git 
@@ -99,7 +99,6 @@ export const POST = async (request: Request) => {
     switch (basic.reportId) {
       case '01': {
         if (mochawesome && github) {
-          console.log('ok')
           const testCase: CaseSchema = {
             basic,
             git,
@@ -107,6 +106,11 @@ export const POST = async (request: Request) => {
             mochawesome,
             azure
           }
+          // get today
+          testCase.basic.date = getToday()
+
+          // anlysis mochawesome data
+          testCase.github = updateRuntime(testCase)
 
           if (github.jobId && github.runId) {
             // save data to mongodb
@@ -114,11 +118,10 @@ export const POST = async (request: Request) => {
             await mongo.connect()
 
             // is unique case by jobId and parentRunId
-
-            const res = await mongo.findOne(basic.reportName, { 'github.jobId': github.jobId, 'github.runId': github.runId })
+            const res = await mongo.findOne(basic.reportName.split(' ').join('_'), { 'github.jobId': github.jobId, 'github.runId': github.runId })
 
             if (res.state === 'fail') {
-              const res = await mongo.insertOne(basic.reportName, testCase)
+              const res = await mongo.insertOne(basic.reportName.split(' ').join('_'), testCase)
 
               // update reports
               // await updateReport(testCase, mongo)

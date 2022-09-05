@@ -1,7 +1,7 @@
 import Header from "~/components/Header.tsx";
 import MyBanner from "~/components/MyBanner.tsx";
 import Loading from "~/components/Loading.tsx"
-import { useData, forwardProps } from "aleph/react";
+import { useData, forwardProps, useRouter } from "aleph/react";
 import { useEffect, useState } from 'react'
 import { ReportSchema } from "~/utils/schema.ts";
 
@@ -9,7 +9,6 @@ import { ReportSchema } from "~/utils/schema.ts";
 export const data = {
   async get(_: Request, _ctx: Context) {
     const data = await fetch("http://localhost/api/report")
-
     return data
   }
 }
@@ -23,6 +22,7 @@ export default function App({ children }: { children: React.ReactNode }) {
       changeLoading(false)
     }
   }, [])
+
   return (
     <>
       <Header />

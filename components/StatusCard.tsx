@@ -8,20 +8,20 @@ export default function StatusCard(opts: { status: testStatus}) {
     let statusText = ''
     let statusIcon = ''
     const status = opts.status
-    const baseClass = 'rounded-md relative md-top--6'
-    if(status === "operational") {
+    const baseClass = 'rounded-md mt-30 '
+    if(status === testStatus.operational) {
         bgColor = 'bg-green-600'
         statusText = 'All Systems Operational'
         statusIcon = 'check_circle'
-    } else if(status === "degraded_performance") {
+    } else if(status === testStatus.partial_failed) {
         bgColor = 'bg-yellow-600'
         statusText = 'Degraded Performance'
         statusIcon = 'report_problem'
-    } else if(status === "partial_outage") {
+    } else if(status === testStatus.partial_passed) {
         bgColor = 'bg-orange-600'
         statusText = 'Partial Outage'
         statusIcon = 'report_problem'
-    } else if(status === "major_outage") {
+    } else if(status === testStatus.panic) {
         bgColor = 'bg-pink-700'
         statusText = 'Oposss!!! Something went wrong...'
         statusIcon = 'highlight_off'

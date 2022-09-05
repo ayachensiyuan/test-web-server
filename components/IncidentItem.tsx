@@ -8,19 +8,19 @@ export default function IncidentItem(opts: { eventTitle: string, eventSubTitle: 
     let statusIcon = ''
     const status = opts.status
     const baseClass = 'md-text-5 text-4.3 md-mt-7 mt-7 hover:cursor-default'
-    if (status === "operational") {
+    if (status === testStatus.operational) {
         textColor = 'text-green-600'
         statusText = 'All Systems Operational'
         statusIcon = 'check_circle'
-    } else if (status === "degraded_performance") {
+    } else if (status === testStatus.partial_failed) {
         textColor = 'text-yellow-600'
         statusText = 'Degraded Performance'
         statusIcon = 'report_problem'
-    } else if (status === "partial_outage") {
+    } else if (status === testStatus.partial_passed) {
         textColor = 'text-orange-600'
         statusText = 'Partial Outage'
         statusIcon = 'report_problem'
-    } else if (status === "major_outage") {
+    } else if (status === testStatus.panic) {
         textColor = 'text-pink-700'
         statusText = 'Oposss!!! Something went wrong...'
         statusIcon = 'highlight_off'

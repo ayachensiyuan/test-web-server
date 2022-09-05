@@ -1,14 +1,14 @@
 import { Link, useData, useRouter } from "aleph/react"
 import { changeStatusIcon } from "~/utils/tools.ts"
 import { useState, useEffect } from "react"
-import { ReportSchema } from "~/utils/schema.ts"
+import { ReportSchema, testStatus, CaseSchema } from "~/utils/schema.ts"
 
 export const data = {
   get(_req: Request, ctx: Context) {
     const data = localStorage.getItem(ctx.params.reportId)
     if(data){
       const jsonData:ReportSchema = JSON.parse(data)
-      if (jsonData.reportResultStatus !== 'out_of_data') {
+      if (jsonData.reportResultStatus !== testStatus.out_of_data) {
         return {
           data: jsonData,
           errMsg: 'ok'
@@ -27,17 +27,16 @@ export const data = {
 export default function report() {
   const reportTitle = 'Incident Report'
   const { data } = useData<{errMsg: string, data: ReportSchema}>()
-  const [reportCases, changeCases] = useState([])
+  const [reportCases, changeCases] = useState<CaseSchema[]>([])
   useEffect(()=>{
     if(data.errMsg === 'out_of_data') {
       useRouter().redirect('/')
     } else {
-      changeCases(changeStatusIcon(data.data.reportCases) || [])
+      changeCases(changeStatusIcon(data.data.reportCases))
     }
   }, []) 
+  console.log(reportCases)
   
-  
-
   return (
     <div className="w-9/10 max-w-350 mx-auto cursor-default">
       <h1 className="text-3xl md-pb-8 pb-4 ">{reportTitle}</h1>
@@ -63,8 +62,9 @@ export default function report() {
             <tbody className="text-center border-gray-300 text-sm">
               {/* testcases */}
               {reportCases.map(item => {
+                if(item.github && item._id)
                 return (
-                  <tr className="h-10   hover:bg-gray-100 border-0.5 border-gray-200" key={item._id}>
+                  <tr className="h-10   hover:bg-gray-100 border-0.5 border-gray-200" key={item._id.toString()}>
                     <td>              <span className="material-icons" style={{ "color": item.statusIconColor }}>
                       {item.statusIcon}
                     </span></td>
@@ -74,8 +74,8 @@ export default function report() {
                       </Link>
                     </td>
                     <td className="hover:link cursor-pointer">
-                      <a href={`mailto:${item.git.author}`}>
-                        {item.git.author}
+                      <a href={item.basic.author?.includes('@microsoft.com')?`mailto:${item.basic.author}`:`javascript:void()`}>
+                        {item.basic.author}
                       </a>
                     </td>
                     <td>{item.github.duration}</td>

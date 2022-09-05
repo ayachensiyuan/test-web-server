@@ -3,13 +3,13 @@ import { config } from 'dotenv'
 //     statusIcon = 'check_circle'
 //     statusIcon = 'report_problem'
 //     statusIcon = 'highlight_off'
-export const changeStatusIcon = (caseItems?: CaseSchema[]) => {
+export const changeStatusIcon = (caseItems: CaseSchema[]) => {
   if (caseItems.length != 0) {
     for (let i = 0; i < caseItems.length; i++) {
-      if (caseItems[i].status == 'operational') {
+      if (caseItems[i].status === testStatus.operational) {
         caseItems[i].statusIcon = 'check_circle'
         caseItems[i].statusIconColor = 'green'
-      } else if (caseItems[i].status == 'major_outage') {
+      } else if (caseItems[i].status === testStatus.panic) {
         caseItems[i].statusIcon = 'highlight_off'
         caseItems[i].statusIconColor = 'red'
       } else {
@@ -19,6 +19,7 @@ export const changeStatusIcon = (caseItems?: CaseSchema[]) => {
     }
     return caseItems
   }
+  return []
 }
 
 export const getEnv = (key: string) => {
@@ -66,22 +67,22 @@ export const getReportStatus = (reportList: ReportSchema[]) => {
       const percentage = failures / totalTest * 100
       testCaseFailures += failures
       if (percentage === 0) {
-        reportList[j].reportCases[i].status = 'operational'
+        reportList[j].reportCases[i].status = testStatus.operational
         status += 0
       } else if (percentage <= 20) {
-        reportList[j].reportCases[i].status = 'degraded_performance'
+        reportList[j].reportCases[i].status = testStatus.partial_failed
         status += 1
       } else if (percentage <= 50) {
-        reportList[j].reportCases[i].status = "partial_outage"
+        reportList[j].reportCases[i].status = testStatus.partial_passed
         status += 2
       } else {
-        reportList[j].reportCases[i].status = "major_outage"
+        reportList[j].reportCases[i].status = testStatus.panic
         status += 3
       }
       reportList[j].reportCases[i].testCaseFailures = failures
     }
     status = Math.ceil(status / reportList[j].reportCases.length)
-    reportList[j].reportResultStatus = !status ? 'operational' : status === 1 ? 'degraded_performance' : status === 2 ? 'partial_outage' : 'major_outage'
+    reportList[j].reportResultStatus = !status ? testStatus.operational : status === 1 ? testStatus.partial_failed : status === 2 ? testStatus.partial_passed : testStatus.panic
     totalStatus += status
     reportList[j].testCaseFailures = testCaseFailures
   }
@@ -89,7 +90,7 @@ export const getReportStatus = (reportList: ReportSchema[]) => {
 
 
   return {
-    totalStatus: !totalStatus ? 'operational' : totalStatus === 1 ? 'degraded_performance' : totalStatus === 2 ? 'partial_outage' : 'major_outage' as testStatus,
+    totalStatus: !totalStatus ? testStatus.operational : totalStatus === 1 ? testStatus.partial_failed : totalStatus === 2 ? testStatus.partial_passed : testStatus.panic as testStatus,
     reportList
   }
 }
@@ -138,3 +139,15 @@ export const initItemCards = (reportList: ReportSchema[]) => {
   return itemCards
 }
 
+export const updateRuntime = (testCase: CaseSchema) => {
+
+  const filename = testCase.mochawesome?.results[0].suites[0].file
+  if(testCase.github){
+    // update coreVersion: find the 'v3' in the filename
+    filename?.includes('v3')? testCase.github.coreVersion = 'V3' : testCase.github.coreVersion = 'V1/V2'
+    // update targetType: find 'ts/js' in the filename
+    filename?.includes('ts')? testCase.github.targetType = 'TS' : filename?.includes('js')? testCase.github.targetType = 'JS': '.NET'
+  }
+
+  return testCase.github
+}

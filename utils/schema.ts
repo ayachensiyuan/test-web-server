@@ -1,13 +1,20 @@
 import { ObjectId } from "mongodb/dep"
-export type testStatus = "operational" | "degraded_performance" | "partial_outage" | "major_outage" | "out_of_data"
+
+export enum testStatus { 
+  operational = "All Systems Operational",
+  partial_failed = "Partial Failed",
+  partial_passed = "Partial Passed",
+  panic = "Panic",
+  out_of_data = "Out of Data"
+}
 
 export enum reportNameEnum {
-  '01' = 'CLI e2e test',
-  '02' = 'vsx UI test',
+  '01' = 'CLI E2E test',
+  '02' = 'VSC UI test',
   '03' = 'performance test',
-  '04' = 'vs UI test',
-  '05' = 'sdk e2e test',
-  '06' = 'CI/CD e2e test'
+  '04' = 'VS UI test',
+  '05' = 'SDK E2E test',
+  '06' = 'CI/CD E2E test'
 }
 
 export interface TestSchema {
@@ -45,8 +52,9 @@ export interface CaseSchema {
   // from basic data
   basic: {
     author?: string;
-    title: string;
+    title?: string;
     uploadTime?: Date;
+    date?: string;
     reportId: '01' | '02' | '03' | '04' | '05' | '06';
     reportName?: string;
   };
@@ -61,11 +69,11 @@ export interface CaseSchema {
   };
   // from github data
   github?: {
-    os?: string;
-    nodeVersion?: string;
-    targetType?: string;
     on: string;
-    coreVersion?: string;
+    coreVersion?: "V1/V2" | "V3";
+    os?: "linux" | "windows" | "mac";
+    nodeVersion?: "v14" | "v16"
+    targetType?: "TS" | "JS" | ".NET";
     jobId: string;
     runId: string;
     caseURL?: string;
@@ -87,7 +95,7 @@ export interface ReportSchema {
   reportName: reportNameEnum;
   reportResultStatus: testStatus;
   testCaseFailures?: number;
-  reportCases?: CaseSchema[];
+  reportCases: CaseSchema[];
 }
 
 export interface Fields {
@@ -154,7 +162,7 @@ export interface GithubData {
   coreVersion: "V1/V2" | "V3";
   os: "linux" | "windows" | "mac";
   nodeVersion: "v14" | "v16"
-  targetType: "TS/JS" | ".NET";
+  targetType: "TS" | "JS" | ".NET";
   slowMethod: number;
   duration: number;
   on: 'schedule' | 'workflow_dispatch' | 'pull_request';
@@ -236,15 +244,15 @@ export interface MochawesomeData {
       options: Record<string, any> | null;
     }
   },
-  author: string;
-  caseURL: string;
-  jobId: string;
-  parentRunId: string;
-  coreVersion: "V1/V2" | "V3";
-  os: "linux" | "windows" | "mac";
-  nodeVersion: "v14" | "v16"
-  targetType: "TS/JS" | ".NET";
-  slowMethod: number;
+  author?: string;
+  caseURL?: string;
+  jobId?: string;
+  parentRunId?: string;
+  coreVersion?: "V1/V2" | "V3";
+  os?: "linux" | "windows" | "mac";
+  nodeVersion?: "v14" | "v16"
+  targetType?: "TS/JS" | ".NET";
+  slowMethod?: number;
 }
 
 

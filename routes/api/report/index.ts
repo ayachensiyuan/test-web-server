@@ -1,5 +1,7 @@
-import Mongo from '../../../utils/mongodb.ts'
-import { getToday } from '../../../utils/tools.ts'
+import Mongo from '~/utils/mongodb.ts'
+import { getToday } from '~/utils/tools.ts'
+import { reportNameEnum } from '~/utils/schema.ts'
+
 export const GET = async (req: Request) => {
     const search = new URL(req.url).search
     const date = new URLSearchParams(search).get('date')
@@ -12,15 +14,12 @@ export const GET = async (req: Request) => {
         const reportList = []
 
         // const result = await mongo.findMany('CLI e2e test', { 'git.date': '2022-08-31', 'github.on': 'schedule' })
-        const result = await mongo.findMany('CLI e2e test', { 'git.date': getToday(), 'github.on': 'schedule' })
-        if (result.state === 'success') {
-
-            reportList.push({ reportName: 'CLI e2e test', reportId: '01', reportCases: result.data })
-
+        for (const reportId of ['01', '02', '03', '04', '05', '06']) {
+            const result = await mongo.findMany(reportNameEnum[reportId as keyof typeof reportNameEnum].split(' ').join('_'), { 'basic.date': getToday()})
+            if (result.state === 'success') {
+                reportList.push({ reportName: reportNameEnum[reportId as keyof typeof reportNameEnum], reportId: reportId, reportCases: result.data })
+            }
         }
-
-
-        mongo.close()
         return new Response(JSON.stringify({
             errMsg: 'ok',
             reportList

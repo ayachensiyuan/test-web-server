@@ -1,7 +1,7 @@
 import { Link, useData, useForwardProps } from "aleph/react";
 import StatusCard from "~/components/StatusCard.tsx"
 import ItemCard from "~/components/ItemCard.tsx"
-import { ReportSchema, testStatus, reportNameEnum } from "~/utils/schema.ts";
+import { ReportSchema, testStatus } from "~/utils/schema.ts";
 import { getReportStatus, initItemCards } from "~/utils/tools.ts"
 
 export default function Index(): JSX.Element {
@@ -13,7 +13,6 @@ export default function Index(): JSX.Element {
   itemCards.forEach(item => {
     localStorage.setItem(item.reportId, JSON.stringify(item))
   })
-  // console.log(itemCards)
 
   return (
     <div className="dark:bg-gray-800 dark:text-white">

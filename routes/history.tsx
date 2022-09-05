@@ -11,7 +11,7 @@ export const data = {
 
 export default function Mypage() {
   const historyPageTitle = 'Incident History'
-  const { data } = useData<{ fakeList: { eventList: eventListInterface[], month: string }[] }>()
+  const { data } = useData<{ fakeList: { eventList, month: string }[] }>()
   const fakeList = data.fakeList
 
   return (
