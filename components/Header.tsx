@@ -34,7 +34,7 @@ export default function Header() {
             </li>
             <li className="mr-4">
               <NavLink activeClassName="text-blue" to="https://github.com/officedev/teamsfx">
-                <div className=" text-xl font-bold">Microsoft Teams Toolkit</div>
+                <div className=" text-xl font-bold">Microsoft Teamsfx Portal</div>
               </NavLink>
             </li>
           </ul>

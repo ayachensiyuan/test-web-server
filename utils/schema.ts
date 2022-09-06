@@ -77,7 +77,7 @@ export interface CaseSchema {
     jobId: string;
     runId: string;
     caseURL?: string;
-    duration?: number;
+    duration?: string;
     slowMethod?: number;
   };
   // from mochawesome data
@@ -164,7 +164,7 @@ export interface GithubData {
   nodeVersion: "v14" | "v16"
   targetType: "TS" | "JS" | ".NET";
   slowMethod: number;
-  duration: number;
+  duration: string;
   on: 'schedule' | 'workflow_dispatch' | 'pull_request';
 }
 

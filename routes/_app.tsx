@@ -1,7 +1,7 @@
 import Header from "~/components/Header.tsx";
 import MyBanner from "~/components/MyBanner.tsx";
 import Loading from "~/components/Loading.tsx"
-import { useData, forwardProps, useRouter } from "aleph/react";
+import { useData, forwardProps } from "aleph/react";
 import { useEffect, useState } from 'react'
 import { ReportSchema } from "~/utils/schema.ts";
 

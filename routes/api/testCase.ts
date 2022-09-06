@@ -69,7 +69,7 @@ export const POST = async (request: Request) => {
     }
 
     // format basic 
-    if ( !basic.reportId) {
+    if (!basic.reportId) {
       return new Response(JSON.stringify({
         state: 'fail',
         error: 'invilid data'
@@ -83,7 +83,7 @@ export const POST = async (request: Request) => {
     }
 
     basic.uploadTime = new Date()
-    basic.author = basic.author || 'unknown'
+    basic.author = git.author || 'unknown'
     basic.reportName = reportNameEnum[basic.reportId]
 
     // format git 
@@ -105,6 +105,13 @@ export const POST = async (request: Request) => {
             github,
             mochawesome,
             azure
+          }
+          // update title
+          testCase.basic.title = mochawesome.results[0].suites[0].title
+
+          // culculate duration
+          if (mochawesome.stats && testCase?.github?.duration) {
+            testCase.github.duration = ((new Date(mochawesome.stats.end ?? '').getTime() - new Date(mochawesome.stats.start ?? '').getTime()) / 1000 / 60).toFixed(2) + 'Min'
           }
           // get today
           testCase.basic.date = getToday()
