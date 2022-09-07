@@ -1,4 +1,4 @@
-import { ReportSchema, testStatus, reportNameEnum, CaseSchema } from "~/utils/schema.ts";
+import { ReportSchema, testStatus, reportNameEnum, CaseSchema, FailuresSchema } from "~/utils/schema.ts";
 import { config } from 'dotenv'
 //     statusIcon = 'check_circle'
 //     statusIcon = 'report_problem'
@@ -59,13 +59,22 @@ export const getReportStatus = (reportList: ReportSchema[]) => {
   let totalStatus = 0
   for (let j = 0; j < reportList.length; j++) {
     let status = 0
-    let testCaseFailures = 0
+    const testCaseFailures: FailuresSchema[] = []
     for (let i = 0; i < reportList[j].reportCases.length; i++) {
       const mochawesome = reportList[j].reportCases[i].mochawesome
-      const failures = mochawesome?.results[0].suites[0].failures.length || 0
+      const failures = mochawesome?.results[0].failures.length || 0
       const totalTest = mochawesome?.results[0].suites[0].tests.length || 0
       const percentage = failures / totalTest * 100
-      testCaseFailures += failures
+      const failureItem = {
+        author: [reportList[j].reportCases[i].git.author?.toUpperCase().split(' ')[0][0],reportList[j].reportCases[i].git.author?.toUpperCase().split(' ')[1][0]].join(''),
+        failures: failures,
+        url: reportList[j].reportCases[i].github?.caseURL,
+        jobId: reportList[j].reportCases[i].github?.jobId,
+        runId: reportList[j].reportCases[i].github?.runId
+      }
+      if (failureItem.failures > 0) {
+        testCaseFailures.push(failureItem)
+      }
       if (percentage === 0) {
         reportList[j].reportCases[i].status = testStatus.operational
         status += 0
@@ -79,7 +88,6 @@ export const getReportStatus = (reportList: ReportSchema[]) => {
         reportList[j].reportCases[i].status = testStatus.panic
         status += 3
       }
-      reportList[j].reportCases[i].testCaseFailures = failures
     }
     status = Math.ceil(status / reportList[j].reportCases.length)
     reportList[j].reportResultStatus = !status ? testStatus.operational : status === 1 ? testStatus.partial_failed : status === 2 ? testStatus.partial_passed : testStatus.panic
@@ -130,10 +138,18 @@ export const initItemCards = (reportList: ReportSchema[]) => {
   }
   for (let i = 0; i < itemCards.length; i++) {
     if (!itemCards[i].reportId) {
+      //  init out of data
       itemCards[i].reportId = '0' + (i + 1)
-      itemCards[i].reportResultStatus = 'out_of_data'
+      itemCards[i].reportResultStatus = testStatus.out_of_data
       itemCards[i].reportName = reportNameEnum[itemCards[i].reportId as keyof typeof reportNameEnum]
       itemCards[i].failedCasesNumber = 0
+    } else {
+      // count slow cases
+      let slowMethods = 0
+      for (let j = 0; j < itemCards[i].reportCases.length; j++) {
+        slowMethods += itemCards[i].reportCases[j].github.slowMethods || 0
+      }
+      itemCards[i].slowMethods = slowMethods
     }
   }
   return itemCards
@@ -142,11 +158,11 @@ export const initItemCards = (reportList: ReportSchema[]) => {
 export const updateRuntime = (testCase: CaseSchema) => {
 
   const filename = testCase.mochawesome?.results[0].suites[0].file
-  if(testCase.github){
+  if (testCase.github) {
     // update coreVersion: find the 'v3' in the filename
-    filename?.includes('v3')? testCase.github.coreVersion = 'V3' : testCase.github.coreVersion = 'V1/V2'
+    filename?.includes('v3') ? testCase.github.coreVersion = 'V3' : testCase.github.coreVersion = 'V1/V2'
     // update targetType: find 'ts/js' in the filename
-    filename?.includes('ts')? testCase.github.targetType = 'TS' : filename?.includes('js')? testCase.github.targetType = 'JS': '.NET'
+    filename?.includes('ts') ? testCase.github.targetType = 'TS' : filename?.includes('js') ? testCase.github.targetType = 'JS' : '.NET'
   }
 
   return testCase.github

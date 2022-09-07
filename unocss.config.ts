@@ -10,7 +10,7 @@ export default <UserConfig> {
 
 
   rules: [
-    ['bg-banner', { 'background-image': 'url(./assets/pexels-salvatore-de-lellis-9683980.jpg)' }],
+    ['bg-banner', { 'background-image': 'url(assets/pexels-salvatore-de-lellis-9683980.jpg)' }],
   ],
   shortcuts: {
     'bg-success': 'bg-lime-300 ',

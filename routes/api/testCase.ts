@@ -97,7 +97,7 @@ export const POST = async (request: Request) => {
     git.author = git.author || 'unknown'
 
     switch (basic.reportId) {
-      case '01': {
+      case ('01' || '04'): {
         if (mochawesome && github) {
           const testCase: CaseSchema = {
             basic,
@@ -107,7 +107,7 @@ export const POST = async (request: Request) => {
             azure
           }
           // update title
-          testCase.basic.title = mochawesome.results[0].suites[0].title
+          testCase.basic.title = mochawesome.results[0].suites[0].file
 
           // culculate duration
           if (mochawesome.stats && testCase?.github?.duration) {
@@ -168,6 +168,7 @@ export const POST = async (request: Request) => {
           },
           status: 302
         })
+        
       }
     }
 

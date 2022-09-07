@@ -1,5 +1,5 @@
-import { testStatus } from "~/utils/schema.ts"
-import { Link } from "aleph/react"
+import { testStatus, FailuresSchema } from "~/utils/schema.ts"
+import { Link, useRouter } from "aleph/react"
 import { useState } from "react"
 /*
 enum testStatus { 
@@ -10,51 +10,64 @@ enum testStatus {
   out_of_data = "Out of Data"
 }
 */
-export default function ItemCard(opts: { status: testStatus, title: string, reportID: '01' | '02' | '03' | '04' | '05' | '06', failedCasesNumber: number }) {
-    let bgColor = ''
-    let statusIcon = ''
-    const status = opts.status
-    const baseClass = 'material-icons hover:cursor-default'
-    if (status === testStatus.operational) {
-        bgColor = 'text-green-600'
-        statusIcon = 'check_circle'
-    } else if (status === testStatus.partial_failed) {
-        bgColor = 'text-yellow-600'
-        statusIcon = 'report_problem'
-    } else if (status === testStatus.partial_passed) {
-        bgColor = 'text-orange-600'
-        statusIcon = 'report_problem'
-    } else if (status === testStatus.panic) {
-        bgColor = 'text-pink-700'
-        statusIcon = 'highlight_off'
-    } else {
-        bgColor = 'text-gray-600'
-        statusIcon = 'help_outline'
-    }
-    bgColor = baseClass + ' ' + bgColor
+export default function ItemCard(opts: { status: testStatus, title: string, reportID: '01' | '02' | '03' | '04' | '05' | '06', failedCases: FailuresSchema [], slowMethods: number, totalCases: number }) {
+  let bgColor = ''
+  let color = ''
+  let statusIcon = ''
+  const status = opts.status
+  const baseClass = 'material-icons hover:cursor-default'
+  if (status === testStatus.operational) {
+    bgColor = 'bg-green-500'
+    color = 'success'
+    statusIcon = 'check_circle'
+  } else if (status === testStatus.partial_failed) {
+    bgColor = 'bg-yellow-500'
+    color = 'warning'
+    statusIcon = 'report_problem'
+  } else if (status === testStatus.partial_passed) {
+    bgColor = 'bg-danger'
+    color = 'danger'
+    statusIcon = 'report_problem'
+  } else if (status === testStatus.panic) {
+    bgColor = 'bg-error'
+    color = 'error'
+    statusIcon = 'highlight_off'
+  } else {
+    bgColor = 'bg-gray-400'
+    color = 'text-gray-400'
+    statusIcon = 'help_outline'
+  }
+  
+  const sendEmail = (index: number) => {
+    useRouter().redirect(opts.failedCases[index].url || '/')
+  }
+  const [hideTips, changeTips] = useState(false)
 
-    const [hideTips, changeTips] = useState(false)
-    const toggleTips = () => {
-        changeTips(!hideTips)
-    }
-
-    return (
-        <div className="bg-white border-gray-300  border-0.5 md-w-1/2 h-23 px-5 flex justify-center flex-col hover:bg-gray-100 dark:bg-gray-800 dark:text-white" >
-            <div className="flex justify-between">
-                <div className="flex items-center">
-                    <Link className={`text-4.5 mr-3 ${status !== testStatus.out_of_data ? 'hover:cursor-pointer hover:text-blue hover:underline' : 'hover:cursor-default'}`} to={status !== testStatus.out_of_data ? `/report/${opts.reportID}` : '/'} >{opts.title}</Link>
-                    <span className="material-icons text-gray-400 scale-80 hover:text-gray-800 hover:cursor-pointer " onMouseOver={toggleTips} onMouseLeave={toggleTips}>
-                        help_outline
-                    </span>
-                    {/* tips */}
-                    <div className={hideTips ? "bg-white border-0.5 shadow border-gray-300 flex justify-center items-center whitespace-nowrap w-40 h-5 relative top--6 left--10 text-3 text-center text-gray-500" : " hidden bg-white border-0.5 shadow border-gray-300  items-center whitespace-nowrap w-40 h-5 relative top--6 left--10 text-3  text-gray-500"}>{status !== testStatus.out_of_data ? `${opts.failedCasesNumber} test cases failed.` : 'no data avaliable.'}</div>
-                </div>
-                <div className="">
-                    <span className={bgColor}>
-                        {statusIcon}
-                    </span>
-                </div>
-            </div>
-        </div >
-    )
+  return (
+    <div className="bg-white border-gray-200  border-0.5 md-w-1/2 h-23 px-5 flex justify-center flex-col hover:bg-gray-100 dark:bg-gray-800 dark:text-white" >
+      <div className="flex justify-between">
+        <div className="flex items-center">
+          <Link className={`text-4.5 mr-3 ${status !== testStatus.out_of_data ? 'hover:cursor-pointer hover:text-blue hover:underline' : 'hover:cursor-default'}`} to={status !== testStatus.out_of_data ? `/report/${opts.reportID}` : '/'} >{opts.title}</Link>
+        </div>
+        <div className=" flex items-center text-white cursor-default">
+          {/* <div className={`border-0.5 rounded mx-1 border-gray px-2 py-0.5 text-3 ${opts.slowMethods?'bg-yellow-600':opts.status !== testStatus.out_of_data?'bg-green-600':'hidden'}`}>{`${opts.slowMethods} methods slow`}</div> */}
+          <div className="flex justify-center items-center mr-3">
+            {
+              opts.failedCases?.map((item, index) => {
+                return (
+                  <div onClick={() => sendEmail(index)} className={`w-6 h-6 rounded-full bg-blue mr-1 flex justify-center items-center text-sm shadow-md border-yellow-800 cursor-pointer active:mr-1 active:mt-1`} key={index}>{item.author}</div>
+                )
+              })
+            }
+          </div>
+          <div className={`border-0.5 rounded mx-1 border-gray-300 px-2 py-0.5 text-3 ${bgColor}`}>{opts.failedCases?.length ? `${opts.failedCases?.length}/${opts.totalCases} cases failed` : opts.status === testStatus.out_of_data ? ' Cases not found' : `All ${opts.totalCases}/${opts.totalCases} Cases goes fine`}</div>
+        </div>
+        <div className="">
+          <span className={color + ' ' + baseClass}>
+            {statusIcon}
+          </span>
+        </div>
+      </div>
+    </div >
+  )
 }

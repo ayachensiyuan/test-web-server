@@ -8,7 +8,7 @@ import * as $3 from "./history.tsx";
 import * as $4 from "./api/todayreportstatus.ts";
 import * as $5 from "./api/historydata.ts";
 import * as $6 from "./api/testdata.ts";
-import * as $7 from "./api/testCase.ts";
+import * as $7 from "./api/testcase.ts";
 import * as $8 from "./report/$reportId.tsx";
 import * as $9 from "./api/report/index.ts";
 import * as $10 from "./api/report/$reportId.ts";
@@ -21,7 +21,7 @@ export default {
   "/api/todayreportstatus": $4,
   "/api/historydata": $5,
   "/api/testdata": $6,
-  "/api/testCase": $7,
+  "/api/testcase": $7,
   "/report/:reportId": $8,
   "/api/report/index": $9,
   "/api/report/:reportId": $10,

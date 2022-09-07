@@ -14,6 +14,8 @@ export default function Index(): JSX.Element {
     localStorage.setItem(item.reportId, JSON.stringify(item))
   })
 
+  console.log(itemCards)
+
   return (
     <div className="dark:bg-gray-800 dark:text-white">
       {/* main */}
@@ -25,18 +27,18 @@ export default function Index(): JSX.Element {
 
         {/* item card */}
         <div className="flex md-flex-wrap md-flex-row flex-col shadow-md shadow-gray-200">
-          {itemCards.map(item => <ItemCard key={item.reportId} title={item.reportName} status={item.reportResultStatus} failedCasesNumber={item.testCaseFailures || 0} reportID={item.reportId} />)}
+          {itemCards.map(item => <ItemCard key={item.reportId} title={item.reportName} status={item.reportResultStatus} failedCases={item.testCaseFailures } reportID={item.reportId} slowMethods={item.slowMethods} totalCases={item?.reportCases?.length ?? 0}  />)}
         </div>
 
         <hr className="mt-10 text-gray-200 border-1.5" />
 
         {/* footer */}
-        <div className="flex justify-end mb-20 pr-3">
+        {/* <div className="flex justify-end mb-20 pr-3">
           <Link className="flex no-wrap" to="/history">
             <span className="text-blue-600 mt-7">Incident History </span>
             <span className="border-r-2 text-transparent border-b-2 w-2 h-2 border-blue-600 rotate--45 relative top-9.5 left-2 "></span>
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   )

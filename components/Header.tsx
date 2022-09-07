@@ -13,9 +13,9 @@ export default function Header() {
 
             </li>
             <li className="mr-4">
-              <NavLink activeClassName="text-blue" to="/history">
+              {/* <NavLink activeClassName="text-blue" to="/history">
                 <div className=" text-2xl font-bold hover-text-blue">History</div>
-              </NavLink>
+              </NavLink> */}
             </li>
           </ul>
         </nav>

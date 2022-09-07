@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb/dep"
 
-export enum testStatus { 
+export enum testStatus {
   operational = "All Systems Operational",
   partial_failed = "Partial Failed",
   partial_passed = "Partial Passed",
@@ -15,6 +15,14 @@ export enum reportNameEnum {
   '04' = 'VS UI test',
   '05' = 'SDK E2E test',
   '06' = 'CI/CD E2E test'
+}
+
+export interface FailuresSchema {
+  author: string | undefined, 
+  failures: number, 
+  url: string | undefined, 
+  jobId: string | undefined, 
+  runId: string | undefined,
 }
 
 export interface TestSchema {
@@ -82,7 +90,7 @@ export interface CaseSchema {
   };
   // from mochawesome data
   mochawesome?: MochawesomeData;
-  azure?: {[key: string]: any};
+  azure?: { [key: string]: any };
   status?: testStatus;
   testCaseFailures?: number;
   _id?: ObjectId;
@@ -94,7 +102,7 @@ export interface ReportSchema {
   reportId: '01' | '02' | '03' | '04' | '05' | '06';
   reportName: reportNameEnum;
   reportResultStatus: testStatus;
-  testCaseFailures?: number;
+  testCaseFailures?: FailuresSchema[];
   reportCases: CaseSchema[];
 }
 
