@@ -95,69 +95,57 @@ export const POST = async (request: Request) => {
     git.commit = git.commit || 'unknown'
     git.date = git.date || new Date()
     git.author = git.author || 'unknown'
+    if (basic.reportId === '01' || basic.reportId === '02') {
+      if (mochawesome && github) {
+        const testCase: CaseSchema = {
+          basic,
+          git,
+          github,
+          mochawesome,
+          azure
+        }
+        // update title
+        testCase.basic.title = mochawesome.results[0].suites[0].file
 
-    switch (basic.reportId) {
-      case ('01' || '04'): {
-        if (mochawesome && github) {
-          const testCase: CaseSchema = {
-            basic,
-            git,
-            github,
-            mochawesome,
-            azure
+        // culculate duration
+        if (mochawesome.stats && testCase?.github?.duration) {
+          testCase.github.duration = ((new Date(mochawesome.stats.end ?? '').getTime() - new Date(mochawesome.stats.start ?? '').getTime()) / 1000 / 60).toFixed(2) + 'Min'
+        }
+        // get today
+        testCase.basic.date = getToday()
+
+        // anlysis mochawesome data
+        testCase.github = updateRuntime(testCase)
+
+        if (github.jobId && github.runId) {
+          // save data to mongodb
+          const mongo = new Mongo()
+          await mongo.connect()
+
+          // is unique case by jobId and parentRunId
+          const res = await mongo.findOne(basic.reportName.split(' ').join('_'), { 'github.jobId': github.jobId, 'github.runId': github.runId })
+
+          if (res.state === 'fail') {
+            const res = await mongo.insertOne(basic.reportName.split(' ').join('_'), testCase)
+
+            // update reports
+            // await updateReport(testCase, mongo)
+            mongo.close()
+            return res
+          } else {
+            // Case already exists
+            mongo.close()
+            return new Response(JSON.stringify({
+              state: 'fail',
+              error: 'Case already exists.'
+            }), {
+              headers: {
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+              },
+              status: 200
+            })
           }
-          // update title
-          testCase.basic.title = mochawesome.results[0].suites[0].file
-
-          // culculate duration
-          if (mochawesome.stats && testCase?.github?.duration) {
-            testCase.github.duration = ((new Date(mochawesome.stats.end ?? '').getTime() - new Date(mochawesome.stats.start ?? '').getTime()) / 1000 / 60).toFixed(2) + 'Min'
-          }
-          // get today
-          testCase.basic.date = getToday()
-
-          // anlysis mochawesome data
-          testCase.github = updateRuntime(testCase)
-
-          if (github.jobId && github.runId) {
-            // save data to mongodb
-            const mongo = new Mongo()
-            await mongo.connect()
-
-            // is unique case by jobId and parentRunId
-            const res = await mongo.findOne(basic.reportName.split(' ').join('_'), { 'github.jobId': github.jobId, 'github.runId': github.runId })
-
-            if (res.state === 'fail') {
-              const res = await mongo.insertOne(basic.reportName.split(' ').join('_'), testCase)
-
-              // update reports
-              // await updateReport(testCase, mongo)
-              mongo.close()
-              return res
-            } else {
-              // Case already exists
-              mongo.close()
-              return new Response(JSON.stringify({
-                state: 'fail',
-                error: 'Case already exists.'
-              }), {
-                headers: {
-                  'content-type': 'application/json',
-                  'Access-Control-Allow-Origin': '*'
-                },
-                status: 200
-              })
-            }
-          } else return new Response(JSON.stringify({
-            state: 'fail',
-            error: 'invilid data'
-          }), {
-            headers: {
-              'content-type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
-            },
-            status: 302
-          })
         } else return new Response(JSON.stringify({
           state: 'fail',
           error: 'invilid data'
@@ -168,8 +156,16 @@ export const POST = async (request: Request) => {
           },
           status: 302
         })
-        
-      }
+      } else return new Response(JSON.stringify({
+        state: 'fail',
+        error: 'invilid data'
+      }), {
+        headers: {
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        status: 302
+      })
     }
 
     return new Response(JSON.stringify({

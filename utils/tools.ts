@@ -3,6 +3,20 @@ import { config } from 'dotenv'
 //     statusIcon = 'check_circle'
 //     statusIcon = 'report_problem'
 //     statusIcon = 'highlight_off'
+
+export const formatName = (name: string | undefined) => {
+  // split firstname and lastname 
+  if(name){
+    const [firstName, lastName] = name.toUpperCase().split(' ')
+    if(lastName) {
+      return [firstName[0], lastName[0]].join('')
+    } else {
+      return firstName[0]
+    }
+  }
+  return 'UN'
+}
+
 export const changeStatusIcon = (caseItems: CaseSchema[]) => {
   if (caseItems.length != 0) {
     for (let i = 0; i < caseItems.length; i++) {
@@ -66,7 +80,7 @@ export const getReportStatus = (reportList: ReportSchema[]) => {
       const totalTest = mochawesome?.results[0].suites[0].tests.length || 0
       const percentage = failures / totalTest * 100
       const failureItem = {
-        author: [reportList[j].reportCases[i].git.author?.toUpperCase().split(' ')[0][0],reportList[j].reportCases[i].git.author?.toUpperCase().split(' ')[1][0]].join(''),
+        author: formatName(reportList[j].reportCases[i].git.author),
         failures: failures,
         url: reportList[j].reportCases[i].github?.caseURL,
         jobId: reportList[j].reportCases[i].github?.jobId,
@@ -95,8 +109,6 @@ export const getReportStatus = (reportList: ReportSchema[]) => {
     reportList[j].testCaseFailures = testCaseFailures
   }
   totalStatus = Math.ceil(totalStatus / reportList.length)
-
-
   return {
     totalStatus: !totalStatus ? testStatus.operational : totalStatus === 1 ? testStatus.partial_failed : totalStatus === 2 ? testStatus.partial_passed : testStatus.panic as testStatus,
     reportList
@@ -156,7 +168,6 @@ export const initItemCards = (reportList: ReportSchema[]) => {
 }
 
 export const updateRuntime = (testCase: CaseSchema) => {
-
   const filename = testCase.mochawesome?.results[0].suites[0].file
   if (testCase.github) {
     // update coreVersion: find the 'v3' in the filename
@@ -164,6 +175,5 @@ export const updateRuntime = (testCase: CaseSchema) => {
     // update targetType: find 'ts/js' in the filename
     filename?.includes('ts') ? testCase.github.targetType = 'TS' : filename?.includes('js') ? testCase.github.targetType = 'JS' : '.NET'
   }
-
   return testCase.github
 }
