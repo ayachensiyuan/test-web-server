@@ -76,8 +76,8 @@ export const getReportStatus = (reportList: ReportSchema[]) => {
     const testCaseFailures: FailuresSchema[] = []
     for (let i = 0; i < reportList[j].reportCases.length; i++) {
       const mochawesome = reportList[j].reportCases[i].mochawesome
-      const failures = mochawesome?.results[0].failures.length || 0
-      const totalTest = mochawesome?.results[0].suites[0].tests.length || 0
+      const failures = mochawesome?.stats?.failures || 0
+      const totalTest = mochawesome?.stats?.tests || 0
       const percentage = failures / totalTest * 100
       const failureItem = {
         author: formatName(reportList[j].reportCases[i].git.author),
@@ -159,7 +159,7 @@ export const initItemCards = (reportList: ReportSchema[]) => {
       // count slow cases
       let slowMethods = 0
       for (let j = 0; j < itemCards[i].reportCases.length; j++) {
-        slowMethods += itemCards[i].reportCases[j].github.slowMethods || 0
+        slowMethods = parseInt(itemCards[i].reportCases[j].github.slowMethod) + slowMethods 
       }
       itemCards[i].slowMethods = slowMethods
     }

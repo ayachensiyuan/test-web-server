@@ -108,8 +108,8 @@ export const POST = async (request: Request) => {
         testCase.basic.title = mochawesome.results[0].suites[0].file
 
         // culculate duration
-        if (mochawesome.stats && testCase?.github?.duration) {
-          testCase.github.duration = ((new Date(mochawesome.stats.end ?? '').getTime() - new Date(mochawesome.stats.start ?? '').getTime()) / 1000 / 60).toFixed(2) + 'Min'
+        if (mochawesome.stats && testCase.github ) {
+          testCase.github.duration = (mochawesome?.stats?.duration / 1000 / 60).toFixed(2) + 'Min' 
         }
         // get today
         testCase.basic.date = getToday()
