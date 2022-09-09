@@ -52,8 +52,8 @@ export const POST = async (request: Request) => {
   const isAuth = verifyToken(request.headers)
   if (isAuth) {
     // verify and reconstruct data
-    const data: { git: GitData, basic: TestCaseData, mochawesome?: MochawesomeData, github?: GithubData, azure?: AzureData } = await request.json()
-    const { git, basic, mochawesome, github, azure } = data
+    const data: CaseSchema = await request.json()
+    const { git, basic, mochawesome, github, azure, azureTestResult } = data
 
     if (!git || !basic) {
       return new Response(JSON.stringify({
@@ -82,12 +82,12 @@ export const POST = async (request: Request) => {
       })
     }
 
+    // format basic
     basic.uploadTime = new Date()
     basic.author = git.author || 'unknown'
     basic.reportName = reportNameEnum[basic.reportId]
 
     // format git 
-
     const project = JSON.parse(await Deno.readTextFile("./test-web-server/config.json"))
     git.orginazation = git.orginazation || project.ORGINAZATION
     git.repository = git.repository || project.REPOSITORY
@@ -95,32 +95,35 @@ export const POST = async (request: Request) => {
     git.commit = git.commit || 'unknown'
     git.date = git.date || new Date()
     git.author = git.author || 'unknown'
+    const testCase: CaseSchema = {
+      basic,
+      git,
+      github,
+      mochawesome,
+      azure,
+      azureTestResult
+    }
+    // get today
+    testCase.basic.date = getToday()
+
+    // conect to db    
+    const mongo = new Mongo()
+    await mongo.connect()
+
     if (basic.reportId === '01' || basic.reportId === '02') {
       if (mochawesome && github) {
-        const testCase: CaseSchema = {
-          basic,
-          git,
-          github,
-          mochawesome,
-          azure
-        }
         // update title
         testCase.basic.title = mochawesome.results[0].suites[0].file
-
         // culculate duration
-        if (mochawesome.stats && testCase.github ) {
-          testCase.github.duration = (mochawesome?.stats?.duration / 1000 / 60).toFixed(2) + 'Min' 
+        if (mochawesome.stats && testCase.github) {
+          testCase.github.duration = (mochawesome?.stats?.duration / 1000 / 60).toFixed(2) + 'Min'
         }
-        // get today
-        testCase.basic.date = getToday()
 
         // anlysis mochawesome data
         testCase.github = updateRuntime(testCase)
 
         if (github.jobId && github.runId) {
           // save data to mongodb
-          const mongo = new Mongo()
-          await mongo.connect()
 
           // is unique case by jobId and parentRunId
           const res = await mongo.findOne(basic.reportName.split(' ').join('_'), { 'github.jobId': github.jobId, 'github.runId': github.runId })
@@ -156,6 +159,41 @@ export const POST = async (request: Request) => {
           },
           status: 302
         })
+      } else return new Response(JSON.stringify({
+        state: 'fail',
+        error: 'invilid data'
+      }), {
+        headers: {
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        status: 302
+      })
+    } else if (basic.reportId === '04') {
+      if (azure && azureTestResult) {
+        // is unique case by jobId and parentRunId
+        const res = await mongo.findOne(basic.reportName.split(' ').join('_'), { 'azureTestResult.id': azureTestResult.id })
+        if (res.state === 'fail') {
+          const res = await mongo.insertOne(basic.reportName.split(' ').join('_'), testCase)
+          
+          mongo.close()
+          return res
+        } else {
+          // Case already exists
+          mongo.close()
+          return new Response(JSON.stringify({
+            state: 'fail',
+            error: 'Case already exists.'
+          }), {
+            headers: {
+              'content-type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            },
+            status: 200
+          })
+        }
+
+
       } else return new Response(JSON.stringify({
         state: 'fail',
         error: 'invilid data'

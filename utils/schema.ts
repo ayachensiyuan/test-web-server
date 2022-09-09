@@ -18,10 +18,10 @@ export enum reportNameEnum {
 }
 
 export interface FailuresSchema {
-  author: string | undefined, 
-  failures: number, 
-  url: string | undefined, 
-  jobId: string | undefined, 
+  author: string | undefined,
+  failures: number,
+  url: string | undefined,
+  jobId: string | undefined,
   runId: string | undefined,
 }
 
@@ -91,6 +91,7 @@ export interface CaseSchema {
   // from mochawesome data
   mochawesome?: MochawesomeData;
   azure?: { [key: string]: any };
+  azureTestResult?: AzureSchema;
   status?: testStatus;
   testCaseFailures?: number;
   _id?: ObjectId;
@@ -263,5 +264,64 @@ export interface MochawesomeData {
   slowMethod?: number;
 }
 
+export interface AzureSchema {
+  id: string,
+  project: {
+    id: string,
+    name: string,
+    url: string
+  },
+  startedDate: Date,
+  completedDate: Date,
+  durationInMs: number,
+  outcome: 'Passed' | 'Failed' | 'Unknown',
+  revision: number,
+  runBy: {
+    id: string,
+    displayName: string,
+    uniqueName: string,
+    url: string,
+    imageUrl: string
+  },
+  state: 'Completed' | 'Panding' | 'InProgress',
+  testCase: {
+    name: string
+  },
+  testRun: {
+    id: string,
+    name: string,
+    url: string
+  },
+  lastUpdatedDate: Date,
+  lastUpdatedBy: {
+    id: string,
+    displayName: string,
+    uniqueName: string,
+    url: string,
+    imageUrl: string
+  },
+  priority: number,
+  computerName: string,
+  build: {
+    id: string,
+    name: string,
+    url: string
+  },
+  createdDate: Date,
+  url: string,
+  failureType: string,
+  automatedTestStorage: string,
+  automatedTestType: string,
+  automatedTestTypeId: string,
+  automatedTestId: string,
+  area: {
+    id: string,
+    name: string,
+    url: string
+  },
+  testCaseTitle: string,
+  customFields: string[],
+  automatedTestName: string
+}
 
 

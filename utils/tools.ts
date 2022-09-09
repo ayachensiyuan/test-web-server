@@ -6,9 +6,9 @@ import { config } from 'dotenv'
 
 export const formatName = (name: string | undefined) => {
   // split firstname and lastname 
-  if(name){
+  if (name) {
     const [firstName, lastName] = name.toUpperCase().split(' ')
-    if(lastName) {
+    if (lastName) {
       return [firstName[0], lastName[0]].join('')
     } else {
       return firstName[0]
@@ -156,12 +156,16 @@ export const initItemCards = (reportList: ReportSchema[]) => {
       itemCards[i].reportName = reportNameEnum[itemCards[i].reportId as keyof typeof reportNameEnum]
       itemCards[i].failedCasesNumber = 0
     } else {
-      // count slow cases
-      let slowMethods = 0
-      for (let j = 0; j < itemCards[i].reportCases.length; j++) {
-        slowMethods = parseInt(itemCards[i].reportCases[j].github.slowMethod) + slowMethods 
+      // count git action slow cases
+      if (itemCards[i].reportId === '01' || itemCards[i].reportId === '02') {
+        let slowMethods = 0
+        for (let j = 0; j < itemCards[i].reportCases.length; j++) {
+          slowMethods = parseInt(itemCards[i].reportCases[j].github.slowMethod) + slowMethods
+        }
+        itemCards[i].slowMethods = slowMethods
+      } else {
+        itemCards[i].slowMethods = -1
       }
-      itemCards[i].slowMethods = slowMethods
     }
   }
   return itemCards
