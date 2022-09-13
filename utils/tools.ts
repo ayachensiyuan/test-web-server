@@ -224,3 +224,12 @@ const addFailureCases = (failureCasesList: FailuresSchema[], failureCase: { auth
     failureCases: [failureCase]
   })
 }
+
+export const parseAuthor = (context: string | undefined | null) => {
+  if (context){
+    const JSONdata = JSON.parse(context)
+    return JSONdata.author
+  } else {
+    return ''
+  }
+}

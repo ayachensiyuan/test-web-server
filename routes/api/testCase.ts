@@ -1,5 +1,5 @@
 import Mongo from '~/utils/mongodb.ts'
-import { verifyToken, getToday, updateRuntime } from '~/utils/tools.ts'
+import { verifyToken, getToday, updateRuntime, parseAuthor } from '~/utils/tools.ts'
 import { CaseSchema, MochawesomeData, GithubData, reportNameEnum, GitData, TestCaseData, AzureData } from '~/utils/schema.ts'
 
 // const updateReport = async (testCase: CaseSchema, db: Mongo) => {
@@ -84,7 +84,7 @@ export const POST = async (request: Request) => {
 
     // format basic
     basic.uploadTime = new Date()
-    basic.author = git.author || 'unknown'
+    basic.author = parseAuthor(mochawesome?.results[0].suites[0].tests[0].context) || git.author || 'unknown'
     basic.reportName = reportNameEnum[basic.reportId]
 
     // format git 
