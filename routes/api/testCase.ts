@@ -172,7 +172,7 @@ export const POST = async (request: Request) => {
     } else if (basic.reportId === '04') {
       if (azure && azureTestResult) {
         // is unique case by jobId and parentRunId
-        const res = await mongo.findOne(basic.reportName.split(' ').join('_'), { 'azureTestResult.id': azureTestResult.id })
+        const res = await mongo.findOne(basic.reportName.split(' ').join('_'), { 'azureTestResult.testRun.id': azureTestResult.testRun.id })
         if (res.state === 'fail') {
           const res = await mongo.insertOne(basic.reportName.split(' ').join('_'), testCase)
           

@@ -71,42 +71,71 @@ mochawesome.results[0].suites[0].tests.length * 100 %
 
 export const getReportStatus = (reportList: ReportSchema[]) => {
   let totalStatus = 0
+  console.log(reportList)
   for (let j = 0; j < reportList.length; j++) {
     let status = 0
+    // get failures cases status
     const testCaseFailures: FailuresSchema[] = []
-    for (let i = 0; i < reportList[j].reportCases.length; i++) {
-      const mochawesome = reportList[j].reportCases[i].mochawesome
-      const failures = mochawesome?.stats?.failures || 0
-      const totalTest = mochawesome?.stats?.tests || 0
-      const percentage = failures / totalTest * 100
-      const failureItem = {
-        author: formatName(reportList[j].reportCases[i].git.author),
-        failures: failures,
-        url: reportList[j].reportCases[i].github?.caseURL,
-        jobId: reportList[j].reportCases[i].github?.jobId,
-        runId: reportList[j].reportCases[i].github?.runId
+    if (reportList[j].reportId === '01' || reportList[j].reportId === '02') {
+      for (let i = 0; i < reportList[j].reportCases.length; i++) {
+        const mochawesome = reportList[j].reportCases[i].mochawesome
+        const failures = mochawesome?.stats?.failures || 0
+        const totalTest = mochawesome?.stats?.tests || 0
+        const percentage = failures / totalTest * 100
+        const failureItem = {
+          author: formatName(reportList[j].reportCases[i].git.author),
+          email: reportList[j].reportCases[i].git.author,
+          failureCases: [],
+          failures: failures,
+          url: reportList[j].reportCases[i].github?.caseURL,
+          jobId: reportList[j].reportCases[i].github?.jobId,
+          runId: reportList[j].reportCases[i].github?.runId
+        }
+
+        if (failureItem.failures > 0) {
+          addFailureCases(testCaseFailures, failureItem)
+        }
+
+        if (percentage === 0) {
+          reportList[j].reportCases[i].status = testStatus.operational
+          status += 0
+        } else if (percentage <= 20) {
+          reportList[j].reportCases[i].status = testStatus.partial_failed
+          status += 1
+        } else if (percentage <= 50) {
+          reportList[j].reportCases[i].status = testStatus.partial_passed
+          status += 2
+        } else {
+          reportList[j].reportCases[i].status = testStatus.panic
+          status += 3
+        }
       }
-      if (failureItem.failures > 0) {
-        testCaseFailures.push(failureItem)
+      status = Math.ceil(status / reportList[j].reportCases.length)
+      reportList[j].reportResultStatus = !status ? testStatus.operational : status === 1 ? testStatus.partial_failed : status === 2 ? testStatus.partial_passed : testStatus.panic
+      totalStatus += status
+      reportList[j].testCaseFailures = testCaseFailures
+    } else if (reportList[j].reportId === '04') {
+      let failures = 0
+      for (let i = 0; i < reportList[j].reportCases.length; i++) {
+        const azureTestResult = reportList[j].reportCases[i].azureTestResult
+        const azure = reportList[j].reportCases[i].azure
+        failures += azureTestResult?.outcome === 'Failed'? 1 : 0
+
+        const failureItem = {
+          author: formatName(reportList[j].reportCases[i].git.author),
+          email: reportList[j].reportCases[i].git.author,
+          failureCases: [],
+          failures: 1,
+          url: azure?.caseURL,
+          runId: azureTestResult?.testRun.id
+        }
+        if (failureItem.failures > 0) {
+          addFailureCases(testCaseFailures, failureItem)
+        }
       }
-      if (percentage === 0) {
-        reportList[j].reportCases[i].status = testStatus.operational
-        status += 0
-      } else if (percentage <= 20) {
-        reportList[j].reportCases[i].status = testStatus.partial_failed
-        status += 1
-      } else if (percentage <= 50) {
-        reportList[j].reportCases[i].status = testStatus.partial_passed
-        status += 2
-      } else {
-        reportList[j].reportCases[i].status = testStatus.panic
-        status += 3
-      }
+      const totalTest = reportList[j].reportCases.length
+
     }
-    status = Math.ceil(status / reportList[j].reportCases.length)
-    reportList[j].reportResultStatus = !status ? testStatus.operational : status === 1 ? testStatus.partial_failed : status === 2 ? testStatus.partial_passed : testStatus.panic
-    totalStatus += status
-    reportList[j].testCaseFailures = testCaseFailures
   }
   totalStatus = Math.ceil(totalStatus / reportList.length)
   return {
@@ -180,4 +209,18 @@ export const updateRuntime = (testCase: CaseSchema) => {
     filename?.includes('ts') ? testCase.github.targetType = 'TS' : filename?.includes('js') ? testCase.github.targetType = 'JS' : '.NET'
   }
   return testCase.github
+}
+
+const addFailureCases = (failureCasesList: FailuresSchema[], failureCase: { author: string, failures: number, email: string | undefined, url: string | undefined, jobId?: string | undefined, runId: string | undefined }) => {
+  for (let i = 0; i < failureCasesList.length; i++) {
+    if (failureCasesList[i].author === failureCase.author) {
+      failureCasesList[i].failureCases.push(failureCase)
+      return failureCasesList
+    }
+  }
+  failureCasesList.push({
+    author: failureCase.author,
+    email: failureCase.email,
+    failureCases: [failureCase]
+  })
 }

@@ -19,10 +19,14 @@ export enum reportNameEnum {
 
 export interface FailuresSchema {
   author: string | undefined,
-  failures: number,
-  url: string | undefined,
-  jobId: string | undefined,
-  runId: string | undefined,
+  email: string | undefined,
+  failure?: number,
+  failureCases: {
+    failures: number,
+    url: string | undefined,
+    jobId?: string | undefined,
+    runId: string | undefined
+  }[]
 }
 
 export interface TestSchema {
@@ -87,6 +91,7 @@ export interface CaseSchema {
     caseURL?: string;
     duration?: string;
     slowMethod?: number;
+    releaseVersion: string;
   };
   // from mochawesome data
   mochawesome?: MochawesomeData;
@@ -175,6 +180,7 @@ export interface GithubData {
   slowMethod: number;
   duration: string;
   on: 'schedule' | 'workflow_dispatch' | 'pull_request';
+  releaseVersion?: string;
 }
 
 export interface AzureData {

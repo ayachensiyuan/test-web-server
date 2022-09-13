@@ -1,6 +1,6 @@
 import { testStatus, FailuresSchema } from "~/utils/schema.ts"
 import { Link, useRouter } from "aleph/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 /*
 enum testStatus { 
   operational = "All Systems Operational",
@@ -37,11 +37,17 @@ export default function ItemCard(opts: { status: testStatus, title: string, repo
     color = 'text-gray-400'
     statusIcon = 'help_outline'
   }
-  
-  const sendEmail = (index: number) => {
-    useRouter().redirect(opts.failedCases[index].url || '/')
+
+  const countFailure = (failedCases: FailuresSchema []) => {
+    let count = 0
+    failedCases.forEach(item => {
+      count += item.failureCases.length
+    })
+    return count
   }
-  const [hideTips, changeTips] = useState(false)
+
+  // const [hideTips, changeTips] = useState(false)
+
 
   return (
     <div className="bg-white border-gray-200  border-0.5 md-w-1/2 h-23 px-5 flex justify-center flex-col hover:bg-gray-100 dark:bg-gray-800 dark:text-white" >
@@ -55,12 +61,12 @@ export default function ItemCard(opts: { status: testStatus, title: string, repo
             {
               opts.failedCases?.map((item, index) => {
                 return (
-                  <div onClick={() => sendEmail(index)} className={`w-6 h-6 rounded-full bg-blue mr-1 flex justify-center items-center text-sm shadow-md border-yellow-800 cursor-pointer active:mr-1 active:mt-1`} key={index}>{item.author}</div>
+                  <div onClick={() => window.location.href=`mailto:${item.author}`} className={`w-6 h-6 rounded-full bg-blue mr-1 flex justify-center items-center text-sm shadow-md border-yellow-800 cursor-pointer active:mr-1 active:mt-1`} key={index}>{item.author}</div>
                 )
               })
             }
           </div>
-          <div className={`border-0.5 rounded mx-1 border-gray-300 px-2 py-0.5 text-3 ${bgColor}`}>{opts.failedCases?.length ? `${opts.failedCases?.length}/${opts.totalCases} cases failed` : opts.status === testStatus.out_of_data ? ' Cases not found' : `All ${opts.totalCases}/${opts.totalCases} Cases goes fine`}</div>
+          <div className={`border-0.5 rounded mx-1 border-gray-300 px-2 py-0.5 text-3 ${bgColor}`}>{opts.failedCases?.length ? `${countFailure(opts.failedCases)}/${opts.totalCases} cases failed` : opts.status === testStatus.out_of_data ? ' Cases not found' : `All ${opts.totalCases}/${opts.totalCases} Cases goes fine`}</div>
         </div>
         <div className="">
           <span className={color + ' ' + baseClass}>

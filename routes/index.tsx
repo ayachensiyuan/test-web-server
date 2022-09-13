@@ -14,7 +14,7 @@ export default function Index(): JSX.Element {
     localStorage.setItem(item.reportId, JSON.stringify(item))
   })
 
-  console.log(itemCards)
+  // console.log(itemCards) 
 
   return (
     <div className="dark:bg-gray-800 dark:text-white">
