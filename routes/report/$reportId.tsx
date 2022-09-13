@@ -39,7 +39,7 @@ export default function report() {
   // console.log(data.data)
 
   const getContext = (id: string) => {
-    if(id === '01') {
+    if(id === '01' || id === '05') {
       return (
         <div className="w-9/10 max-w-350 mx-auto cursor-default">
           <h1 className="text-3xl md-pb-8 py-4">{reportTitle}</h1>
