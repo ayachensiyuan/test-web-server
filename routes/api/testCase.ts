@@ -110,7 +110,7 @@ export const POST = async (request: Request) => {
     const mongo = new Mongo()
     await mongo.connect()
 
-    if (basic.reportId === '01' || basic.reportId === '02') {
+    if (basic.reportId === '01' || basic.reportId === '02' || basic.reportId === '05') {
       if (mochawesome && github) {
         // update title
         testCase.basic.title = mochawesome.results[0].suites[0].file
