@@ -239,20 +239,23 @@ export const parseAuthor = (context: string | undefined | null) => {
   }
 }
 
-export const computeTime = (duration: number) => {
-  const time = duration / 1000
-  const hours = Math.floor(time / 3600)
-  const minutes = Math.floor((time % 3600) / 60)
-  const seconds = Math.floor(time % 60)
-  return `${hours === 0 ? '' : hours + ' s'} ${minutes === 0 ? '' : minutes + ' m'} ${seconds === 0 ? duration + ' ms' : seconds + ' s'}`
+export const computeTime = (duration: number | undefined) => {
+  if (duration && typeof duration === 'number') {
+    const time = duration / 1000
+    const hours = Math.floor(time / 3600)
+    const minutes = Math.floor((time % 3600) / 60)
+    const seconds = Math.floor(time % 60)
+    return `${hours === 0 ? '' : hours + ' s'} ${minutes === 0 && hours === 0 ? '' : minutes + ' m'} ${seconds === 0 && minutes === 0 && hours === 0 ? duration + ' ms' : seconds + ' s'}`
+  } else return 'undefined'
 }
 
 export const initTestCase = (reportId: keyof typeof reportNameEnum, reportCases: CaseSchema[]) => {
   if (reportId === '05') {
-    const testCases = []
+    const testCaseList = []
     for (let k = 0; k < reportCases.length; k++) {
       const { mochawesome, github, basic } = reportCases[k]
       // seperate test cases
+      const testCases = []
       if (mochawesome && github) {
         for (let i = 0; i < mochawesome.results[0].suites.length; i++) {
           for (let j = 0; j < mochawesome.results[0].suites[i].tests.length; j++) {
@@ -260,8 +263,9 @@ export const initTestCase = (reportId: keyof typeof reportNameEnum, reportCases:
           }
         }
       }
+      testCaseList.push(testCases)
     }
-    return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases, testCases }
+    return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases, testCaseList }
   } else
     return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases }
 }

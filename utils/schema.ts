@@ -89,7 +89,7 @@ export interface CaseSchema {
     jobId: string;
     runId: string;
     caseURL?: string;
-    duration?: string;
+    duration?: number;
     slowMethod?: number;
     releaseVersion: string;
   };
@@ -178,7 +178,7 @@ export interface GithubData {
   nodeVersion: "v14" | "v16"
   targetType: "TS" | "JS" | ".NET";
   slowMethod: number;
-  duration: string;
+  duration: number;
   on: 'schedule' | 'workflow_dispatch' | 'pull_request';
   releaseVersion?: string;
 }

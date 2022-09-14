@@ -70,27 +70,27 @@ export default function report() {
                     if (item.github && item._id)
                       return (
                         <tr className="h-10   hover:bg-gray-100 border-0.5 border-gray-200" key={item._id.toString()}>
-                          <td>{index + 1}</td>
+                          <td className="px-3">{index + 1}</td>
                           <td>              <span className="material-icons" style={{ "color": item.statusIconColor }}>
                             {item.statusIcon}
                           </span></td>
                           <td >
-                            <Link className="hover:link cursor-pointer" to={item.github.caseURL || '/'}>
+                            <Link className="hover:link cursor-pointer px-3" to={item.github.caseURL || '/'}>
                               {item.basic.title}
                             </Link>
                           </td>
-                          <td className="hover:link cursor-pointer">
+                          <td className="hover:link cursor-pointer px-3">
                             <a href={item.basic.author?.includes('@microsoft.com') ? `mailto:${item.basic.author}` : `javascript:void()`}>
                               {item.basic.author}
                             </a>
                           </td>
-                          <td>{item.github.duration}</td>
-                          <td>{item.github.targetType}</td>
-                          <td>{item.github.coreVersion}</td>
-                          <td>{item.github.slowMethod}</td>
-                          <td>{item.github.os}</td>
-                          <td>{item.github.nodeVersion}</td>
-                          <td>{item.github.on}</td>
+                          <td className="px-3">{computeTime(item.github.duration)}</td>
+                          <td className="px-3">{item.github.targetType}</td>
+                          <td className="px-3">{item.github.coreVersion}</td>
+                          <td className="px-3">{item.github.slowMethod}</td>
+                          <td className="px-3">{item.github.os}</td>
+                          <td className="px-3">{item.github.nodeVersion}</td>
+                          <td className="px-3">{item.github.on.split('_').join(' ')}</td>
                         </tr>
                       )
                   })}
@@ -137,26 +137,26 @@ export default function report() {
                     if (item.github && item._id)
                       return (
                         <tr className="h-10   hover:bg-gray-100 border-0.5 border-gray-200" key={item._id.toString()}>
-                          <td>{index + 1}</td>
+                          <td className="px-3">{index + 1}</td>
                           <td>              <span className="material-icons" style={{ "color": item.statusIconColor }}>
                             {item.statusIcon}
                           </span></td>
-                          <td >
+                          <td className="px-3">
                             <Link className="hover:link cursor-pointer" to={item.github.caseURL || '/'}>
                               {item.basic.title}
                             </Link>
                           </td>
-                          <td className="hover:link cursor-pointer">
+                          <td className="hover:link cursor-pointer px-3">
                             <a href={item.basic.author?.includes('@microsoft.com') ? `mailto:${item.basic.author}` : `javascript:void()`}>
                               {item.basic.author}
                             </a>
                           </td>
-                          <td>{item.github.duration}</td>
-                          <td>{item.github.targetType}</td>
-                          <td>{item.github.releaseVersion}</td>
-                          <td>{item.github.os}</td>
-                          <td>{item.github.nodeVersion}</td>
-                          <td>{item.github.on}</td>
+                          <td className="px-3">{computeTime(item.github.duration)}</td>
+                          <td className="px-3">{item.github.targetType}</td>
+                          <td className="px-3">{item.github.releaseVersion}</td>
+                          <td className="px-3">{item.github.os}</td>
+                          <td className="px-3">{item.github.nodeVersion}</td>
+                          <td className="px-3">{item.github.on.split('_').join(' ')}</td>
                         </tr>
                       )
                   })}
@@ -214,7 +214,7 @@ export default function report() {
                               {item.basic.author}
                             </a>
                           </td>
-                          <td>{item.azureTestResult.durationInMs}</td>
+                          <td>{computeTime(item.azureTestResult.durationInMs)}</td>
                           <td>{item.azure.os}</td>
                           <td>{item.azure.on}</td>
                         </tr>
@@ -240,55 +240,66 @@ export default function report() {
           <h2 className="mb-5 text-lg text-gray-500">{new Date(Date.now()).toDateString()}</h2>
           <div className="border-gray-200 border-1.5   bg-white shadow-md shadow-gray-200 ">
             <div className="">
-              <table className="table-auto w-full border-collapse border-1 border-gray-300 ">
-                <thead className="text-center  text-gray-600 text-sm">
-                  <tr className="h-10">
-                    <th>No.</th>
-                    <th>
-                      status
-                    </th>
-                    <th>run id</th>
-                    <th>suite name</th>
-                    <th >report name</th>
-                    <th >author</th>
-                    <th >duration</th>
-                    <th >target type</th>
-                    <th >OS</th>
-                    <th >node version</th>
-                    <th>on</th>
-                  </tr>
-                </thead>
-                <tbody className="text-center border-gray-300 text-sm">
-                  {/* testcases */}
-                  {data.data.testCases.map((item, index) => {
-                    return (
-                      <tr className={`h-10   hover:bg-gray-200 border-0.5 border-gray-200 ${index % 2 === 0 ? 'bg-gray-100' : ''}`} key={index}>
-                        <td>{index + 1}</td>
-                        <td>              <span className="material-icons" style={{ "color": item.statusIconColor }}>
-                          {item.statusIcon}
-                        </span></td>
-                        <td>{item.runId}</td>
-                        <td>{item.suiteName.split('-')[0]}</td>
-                        <td >
-                          <Link className="hover:link cursor-pointer" to={item.caseURL || '/'}>
-                            {item.title}
-                          </Link>
-                        </td>
-                        <td className="hover:link cursor-pointer">
-                          <a href={item.author?.includes('@microsoft.com') ? `mailto:${item.author}` : `javascript:void()`}>
-                            {item.author}
-                          </a>
-                        </td>
-                        <td className={item.duration>10000?'bg-red':item.duration>5000?'bg-yellow':item.duration>2000?'bg-green-300':'bg-green-500'}>{computeTime(item.duration)}</td>
-                        <td>{item.suiteName.includes('Node') ? 'Node' : 'Browser'}</td>
-                        <td>{item.os}</td>
-                        <td>{item.nodeVersion}</td>
-                        <td>{item.on}</td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
+              {
+                data.data.testCaseList.map((item, index) => {
+                  return (
+                    <div>
+                      <div className="pl-5 flex justify-left items-center  text-gray-600 text-lg bg-blue-100 h-10">
+                        run id: {item[0].runId}
+                      </div>
+                      <table className="table-auto w-full border-collapse border-1 border-gray-300 mb-5 ">
+
+                        <thead className="text-center  text-gray-600 text-sm">
+                          <tr className="h-10">
+                            <th className="px-3">No.</th>
+                            <th className="px-3">
+                              status
+                            </th>
+                            <th className="px-3">suite name</th>
+                            <th className="px-3" >report name</th>
+                            <th className="px-3" >author</th>
+                            <th className="px-3" >duration</th>
+                            <th className="px-3" >target type</th>
+                            <th className="px-3" >OS</th>
+                            <th className="px-3" >node version</th>
+                            <th className="px-3">on</th>
+                          </tr>
+                        </thead>
+                        <tbody className="text-center border-gray-300 text-sm">
+                          {/* testcases */}
+                          {item.map((test, index1) => {
+                            return (
+                              <tr className={`h-10   hover:bg-gray-200 border-0.5 border-gray-200 ${index1 % 2 === 0 ? 'bg-gray-100' : ''}`} key={index1}>
+                                <td className="px-3">{index1 + 1}</td>
+                                <td className="px-3">              <span className="material-icons" style={{ "color": test.statusIconColor }}>
+                                  {test.statusIcon}
+                                </span></td>
+                                <td className="px-3">{test.suiteName.split('-')[0]}</td>
+                                <td className="px-3" >
+                                  <Link className="hover:link cursor-pointer" to={test.caseURL || '/'}>
+                                    {test.title}
+                                  </Link>
+                                </td>
+                                <td className="hover:link cursor-pointer">
+                                  <a href={test.author?.includes('@microsoft.com') ? `mailto:${test.author}` : `javascript:void()`}>
+                                    {test.author}
+                                  </a>
+                                </td>
+                                <td className={test.duration > 10000 ? 'bg-red' : test.duration > 5000 ? 'bg-yellow' : test.duration > 2000 ? 'bg-green-300' : 'bg-green-500'}>{computeTime(test.duration)}</td>
+                                <td className="px-3">{test.suiteName.includes('Node') ? 'Node' : 'Browser'}</td>
+                                <td className="px-3">{test.os}</td>
+                                <td className="px-3">{test.nodeVersion}</td>
+                                <td className="px-3">{test.on.split('_').join(' ')}</td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  )
+                })
+              }
+
               {reportCases.length == 0 ? <div className="text-center my-5 text-5">out of data</div> : null}
             </div>
           </div>

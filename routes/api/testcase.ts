@@ -116,7 +116,7 @@ export const POST = async (request: Request) => {
         testCase.basic.title = mochawesome.results[0].suites[0].file
         // culculate duration
         if (mochawesome.stats && testCase.github) {
-          testCase.github.duration = computeTime(mochawesome?.stats?.duration)
+          testCase.github.duration = mochawesome?.stats?.duration
         }
 
         // anlysis mochawesome data
