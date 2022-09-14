@@ -89,7 +89,7 @@ export const POST = async (request: Request) => {
 
     // format git 
     const project = JSON.parse(await Deno.readTextFile("./test-web-server/config.json"))
-    git.orginazation = git.orginazation || project.ORGINAZATION
+    git.organization = git.organization || project.ORGANIZATION
     git.repository = git.repository || project.REPOSITORY
     git.branch = git.branch || 'unknown'
     git.commit = git.commit || 'unknown'

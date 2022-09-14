@@ -72,7 +72,7 @@ export interface CaseSchema {
   };
   // from git data
   git: {
-    orginazation?: string;
+    organization?: string;
     repository?: string;
     commit?: string;
     author?: string;
@@ -153,7 +153,7 @@ interface Hooks {
 }
 
 export interface GitData {
-  orginazation?: string;
+  organization?: string;
   repository?: string;
   commit?: string;
   author?: string;
