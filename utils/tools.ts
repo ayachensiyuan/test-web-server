@@ -71,12 +71,12 @@ mochawesome.results[0].suites[0].tests.length * 100 %
 
 export const getReportStatus = (reportList: ReportSchema[]) => {
   let totalStatus = 0
-  console.log(reportList)
+  // console.log(reportList)
   for (let j = 0; j < reportList.length; j++) {
     let status = 0
     // get failures cases status
     const testCaseFailures: FailuresSchema[] = []
-    if (reportList[j].reportId === '01' || reportList[j].reportId === '02') {
+    if (reportList[j].reportId === '01' || reportList[j].reportId === '02' || reportList[j].reportId === '05') {
       for (let i = 0; i < reportList[j].reportCases.length; i++) {
         const mochawesome = reportList[j].reportCases[i].mochawesome
         const failures = mochawesome?.stats?.failures || 0
@@ -119,7 +119,7 @@ export const getReportStatus = (reportList: ReportSchema[]) => {
       for (let i = 0; i < reportList[j].reportCases.length; i++) {
         const azureTestResult = reportList[j].reportCases[i].azureTestResult
         const azure = reportList[j].reportCases[i].azure
-        failures += azureTestResult?.outcome === 'Failed'? 1 : 0
+        failures += azureTestResult?.outcome === 'Failed' ? 1 : 0
 
         const failureItem = {
           author: formatName(reportList[j].reportCases[i].git.author),
@@ -226,10 +226,42 @@ const addFailureCases = (failureCasesList: FailuresSchema[], failureCase: { auth
 }
 
 export const parseAuthor = (context: string | undefined | null) => {
-  if (context){
-    const JSONdata = JSON.parse(context)
-    return JSONdata.author
+  if (context) {
+    try {
+      const JSONdata = JSON.parse(JSON.parse(context))
+      return JSONdata.author
+
+    } catch (error) {
+      return ''
+    }
   } else {
     return ''
   }
+}
+
+export const computeTime = (duration: number) => {
+  const time = duration / 1000
+  const hours = Math.floor(time / 3600)
+  const minutes = Math.floor((time % 3600) / 60)
+  const seconds = Math.floor(time % 60)
+  return `${hours === 0 ? '' : hours + ' s'} ${minutes === 0 ? '' : minutes + ' m'} ${seconds === 0 ? duration + ' ms' : seconds + ' s'}`
+}
+
+export const initTestCase = (reportId: keyof typeof reportNameEnum, reportCases: CaseSchema[]) => {
+  if (reportId === '05') {
+    const testCases = []
+    for (let k = 0; k < reportCases.length; k++) {
+      const { mochawesome, github, basic } = reportCases[k]
+      // seperate test cases
+      if (mochawesome && github) {
+        for (let i = 0; i < mochawesome.results[0].suites.length; i++) {
+          for (let j = 0; j < mochawesome.results[0].suites[i].tests.length; j++) {
+            testCases.push({ title: mochawesome.results[0].suites[i].tests[j].title, suiteName: mochawesome.results[0].suites[i].title, testResult: mochawesome.results[0].suites[i].tests[j].state, duration: mochawesome.results[0].suites[i].tests[j].duration, os: github.os, nodeVersion: github.nodeVersion, on: github.on, caseURL: github.caseURL, runId: github.runId, jobId: github.jobId, author: basic.author, statusIcon: mochawesome.results[0].suites[i].tests[j].state === 'passed' ? 'check_circle' : 'highlight_off', statusIconColor: mochawesome.results[0].suites[i].tests[j].state === 'passed' ? 'green' : 'red' })
+          }
+        }
+      }
+    }
+    return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases, testCases }
+  } else
+    return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases }
 }

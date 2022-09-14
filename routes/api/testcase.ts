@@ -1,6 +1,6 @@
 import Mongo from '~/utils/mongodb.ts'
-import { verifyToken, getToday, updateRuntime, parseAuthor } from '~/utils/tools.ts'
-import { CaseSchema, MochawesomeData, GithubData, reportNameEnum, GitData, TestCaseData, AzureData } from '~/utils/schema.ts'
+import { verifyToken, getToday, updateRuntime, parseAuthor, computeTime } from '~/utils/tools.ts'
+import { CaseSchema, reportNameEnum} from '~/utils/schema.ts'
 
 // const updateReport = async (testCase: CaseSchema, db: Mongo) => {
 //   const result = await db.findOne('reports', { runId: testCase.github.runId })
@@ -116,7 +116,7 @@ export const POST = async (request: Request) => {
         testCase.basic.title = mochawesome.results[0].suites[0].file
         // culculate duration
         if (mochawesome.stats && testCase.github) {
-          testCase.github.duration = (mochawesome?.stats?.duration / 1000 / 60).toFixed(2) + 'Min'
+          testCase.github.duration = computeTime(mochawesome?.stats?.duration)
         }
 
         // anlysis mochawesome data
@@ -170,7 +170,8 @@ export const POST = async (request: Request) => {
         status: 302
       })
     } else if (basic.reportId === '04') {
-      if (azure && azureTestResult) {
+      if (testCase.azure && azureTestResult) {
+        testCase.azure.duration = computeTime(azureTestResult.durationInMs)
         // is unique case by jobId and parentRunId
         const res = await mongo.findOne(basic.reportName.split(' ').join('_'), { 'azureTestResult.testRun.id': azureTestResult.testRun.id })
         if (res.state === 'fail') {

@@ -1,6 +1,6 @@
 import Mongo from '~/utils/mongodb.ts'
-import { getToday } from '~/utils/tools.ts'
-import { reportNameEnum } from '~/utils/schema.ts'
+import { getToday, initTestCase } from '~/utils/tools.ts'
+import { CaseSchema, reportNameEnum } from '~/utils/schema.ts'
 
 export const GET = async (req: Request) => {
     const search = new URL(req.url).search
@@ -17,7 +17,7 @@ export const GET = async (req: Request) => {
         for (const reportId of ['01', '02', '03', '04', '05', '06']) {
             const result = await mongo.findMany(reportNameEnum[reportId as keyof typeof reportNameEnum].split(' ').join('_'), { 'basic.date': getToday()})
             if (result.state === 'success') {
-                reportList.push({ reportName: reportNameEnum[reportId as keyof typeof reportNameEnum], reportId: reportId, reportCases: result.data })
+                reportList.push(initTestCase(reportId as keyof typeof reportNameEnum, result.data as CaseSchema[]))
             }
         }
         return new Response(JSON.stringify({

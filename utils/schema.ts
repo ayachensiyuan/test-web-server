@@ -134,7 +134,7 @@ interface Hooks {
   fullTitle: string;
   timeOut: number;
   duration: number;
-  state: 'pass' | 'fail' | 'pending' | null;
+  state: 'passed' | 'failed' | 'pending' | null;
   speed: number | null;
   pass: boolean;
   pending: boolean;
@@ -188,7 +188,7 @@ export interface AzureData {
 }
 
 export interface MochawesomeData {
-  stats?: {
+  stats: {
     suites: number;
     tests: number;
     passes: number;

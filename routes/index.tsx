@@ -7,14 +7,14 @@ import { getReportStatus, initItemCards } from "~/utils/tools.ts"
 export default function Index(): JSX.Element {
   const { data } = useForwardProps<{ data: { errMsg: string, reportList: ReportSchema[] } }>()
   const indexData: { totalStatus: testStatus, reportList: ReportSchema[] } = getReportStatus(data.reportList)
-  
+
   const mainStatusTitle = 'Current Status'
   const itemCards = initItemCards(indexData.reportList)
   itemCards.forEach(item => {
     localStorage.setItem(item.reportId, JSON.stringify(item))
   })
 
-  // console.log(itemCards) 
+  console.log(itemCards)
 
   return (
     <div className="dark:bg-gray-800 dark:text-white">
@@ -27,7 +27,15 @@ export default function Index(): JSX.Element {
 
         {/* item card */}
         <div className="flex md-flex-wrap md-flex-row flex-col shadow-md shadow-gray-200">
-          {itemCards.map(item => <ItemCard key={item.reportId} title={item.reportName} status={item.reportResultStatus} failedCases={item.testCaseFailures } reportID={item.reportId} slowMethods={item.slowMethods} totalCases={item?.reportCases?.length ?? 0}  />)}
+          {itemCards.map(item => {
+            if (item.reportId !== '05')
+              return (<ItemCard key={item.reportId} title={item.reportName} status={item.reportResultStatus} failedCases={item.testCaseFailures} reportID={item.reportId} slowMethods={item.slowMethods} totalCases={item?.reportCases?.length ?? 0} />)
+            else 
+              return (
+                <ItemCard key={item.reportId} title={item.reportName} status={item.reportResultStatus} failedCases={item.testCaseFailures} reportID={item.reportId} slowMethods={item.slowMethods} totalCases={item?.testCases?.length ?? 0} />
+              )
+          }
+          )}
         </div>
 
         <hr className="mt-10 text-gray-200 border-1.5" />
