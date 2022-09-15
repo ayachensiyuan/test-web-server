@@ -32,7 +32,7 @@ export default function Index(): JSX.Element {
               return (<ItemCard key={item.reportId} title={item.reportName} status={item.reportResultStatus} failedCases={item.testCaseFailures} reportID={item.reportId} slowMethods={item.slowMethods} totalCases={item?.reportCases?.length ?? 0} />)
             else 
               return (
-                <ItemCard key={item.reportId} title={item.reportName} status={item.reportResultStatus} failedCases={item.testCaseFailures} reportID={item.reportId} slowMethods={item.slowMethods} totalCases={item.testCaseList.flat().length} />
+                <ItemCard key={item.reportId} title={item.reportName} status={item.reportResultStatus} failedCases={item.testCaseFailures} reportID={item.reportId} slowMethods={item.slowMethods} totalCases={item?.testCaseList?.flat().length} />
               )
           }
           )}

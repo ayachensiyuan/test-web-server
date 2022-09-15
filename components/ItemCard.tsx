@@ -66,7 +66,7 @@ export default function ItemCard(opts: { status: testStatus, title: string, repo
               })
             }
           </div>
-          <div className={`border-0.5 rounded mx-1 border-gray-300 px-2 py-0.5 text-3 ${bgColor}`}>{opts.failedCases?.length ? `${countFailure(opts.failedCases)}/${opts.totalCases} cases failed` : opts.status === testStatus.out_of_data ? ' Cases not found' : `All ${opts.totalCases}/${opts.totalCases} Cases goes fine`}</div>
+          <div className={`border-0.5 rounded mx-1 border-gray-300 px-2 py-0.5 text-3 ${bgColor}`}>{opts.failedCases?.length ? `${countFailure(opts.failedCases)}/${opts.totalCases} cases failed` : opts.status === testStatus.out_of_data ? ' Cases not found' : `${opts.totalCases}/${opts.totalCases} Cases goes fine`}</div>
         </div>
         <div className="">
           <span className={color + ' ' + baseClass}>

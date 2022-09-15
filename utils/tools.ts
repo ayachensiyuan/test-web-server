@@ -245,7 +245,7 @@ export const computeTime = (duration: number | undefined) => {
     const hours = Math.floor(time / 3600)
     const minutes = Math.floor((time % 3600) / 60)
     const seconds = Math.floor(time % 60)
-    return `${hours === 0 ? '' : hours + ' s'} ${minutes === 0 && hours === 0 ? '' : minutes + ' m'} ${seconds === 0 && minutes === 0 && hours === 0 ? duration + ' ms' : seconds + ' s'}`
+    return `${hours === 0 ? '' : hours + 's'} ${minutes === 0 && hours === 0 ? '' : minutes + 'm'} ${seconds === 0 && minutes === 0 && hours === 0 ? duration + 'ms' : seconds + 's'}`
   } else return 'undefined'
 }
 
@@ -266,6 +266,35 @@ export const initTestCase = (reportId: keyof typeof reportNameEnum, reportCases:
       testCaseList.push(testCases)
     }
     return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases, testCaseList }
+  } else if (reportId === '01' || reportId === '02') {
+    const testCaseList = []
+    let testCases: any[] = []
+    const failedCaseList = []
+    for (let k = 0; k < reportCases.length; k++) {
+      const { mochawesome, github, basic } = reportCases[k]
+      const runId = github?.runId
+      // create failed list
+      if (mochawesome && mochawesome.stats.failures > 0) {
+        failedCaseList.push(reportCases[k])
+      }
+
+      // seperate test cases
+      if (testCases.length === 0 || testCases[0]?.runId === runId) {
+        if (mochawesome && github) {
+          testCases.push({ title: mochawesome.results[0].suites[0].file, testResult: mochawesome.results[0].suites[0].failures.length > 0 ? 'Failed' : 'Passed', duration: mochawesome.results[0].suites[0].duration, os: github.os, nodeVersion: github.nodeVersion, on: github.on, caseURL: github.caseURL, runId: github.runId, jobId: github.jobId, author: basic.author, statusIcon: mochawesome.results[0].suites[0].failures.length === 0 ? 'check_circle' : 'highlight_off', statusIconColor: mochawesome.results[0].suites[0].failures.length === 0 ? 'green' : 'red', targetType: github.targetType, coreVersion: github.coreVersion, slowMethod: github.slowMethod, releaseVersion: github.releaseVersion })
+        }
+      } else {
+        testCaseList.push(testCases)
+        testCases = []
+        if (mochawesome && github)
+          testCases.push({ title: mochawesome.results[0].suites[0].file, testResult: mochawesome.results[0].suites[0].failures.length > 0 ? 'Failed' : 'Passed', duration: mochawesome.results[0].suites[0].duration, os: github.os, nodeVersion: github.nodeVersion, on: github.on, caseURL: github.caseURL, runId: github.runId, jobId: github.jobId, author: basic.author, statusIcon: mochawesome.results[0].suites[0].failures.length === 0 ? 'check_circle' : 'highlight_off', statusIconColor: mochawesome.results[0].suites[0].failures.length === 0 ? 'green' : 'red', targetType: github.targetType, coreVersion: github.coreVersion, slowMethod: github.slowMethod, releaseVersion: github.releaseVersion })
+      }
+
+    }
+    if (testCases.length !== 0) {
+      testCaseList.push(testCases)
+    }
+    return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases, testCaseList, failedCaseList }
   } else
     return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases }
 }
