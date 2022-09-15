@@ -50,8 +50,8 @@ export default function report() {
                 data.data.testCaseList.map((item, index) => {
                   return (
                     <div>
-                      <div onClick={()=>{window.location.href = `https://github.com/OfficeDev/TeamsFx/actions/runs/${item[0].runId}`}} className="pl-5 flex justify-left items-center  text-gray-600 text-lg bg-blue-100 h-10 sticky top-0 hover:cursor-pointer">
-                        run id: {item[0].runId}
+                      <div onClick={()=>{window.location.href = `https://github.com/OfficeDev/TeamsFx/actions/runs/${item.runId}`}} className="pl-5 flex justify-left items-center  text-gray-600 text-lg bg-blue-100 h-10 sticky top-0 hover:cursor-pointer">
+                        run id: {item.runId}
                       </div>
                       <table className="table-auto w-full border-collapse border-1 border-gray-300 ">
                         <thead className="text-center  text-gray-600 text-sm">
@@ -73,7 +73,7 @@ export default function report() {
                         </thead>
                         <tbody className="text-center border-gray-300 text-sm">
                           {/* testcases */}
-                          {item.map((test,index1) => {
+                          {item.testCase.map((test,index1) => {
                               return (
                                 <tr className={`h-10   hover:bg-gray-200 border-0.5 border-gray-200 ${index1 % 2 === 0 ? 'bg-gray-100' : ''}`} key={test.jobId}>
                                   <td className="px-3">{index1 + 1}</td>
@@ -128,8 +128,8 @@ export default function report() {
                 data.data.testCaseList.map((item, index) => {
                   return (
                     <div>
-                      <div onClick={()=>{window.location.href = `https://github.com/OfficeDev/TeamsFx/actions/runs/${item[0].runId}`}} className="pl-5 flex justify-left items-center  text-gray-600 text-lg bg-blue-100 h-10 sticky top-0 hover:cursor-pointer">
-                        run id: {item[0].runId}
+                      <div onClick={()=>{window.location.href = `https://github.com/OfficeDev/TeamsFx/actions/runs/${item.runId}`}} className="pl-5 flex justify-left items-center  text-gray-600 text-lg bg-blue-100 h-10 sticky top-0 hover:cursor-pointer">
+                        run id: {item.runId}
                       </div>
                       <table className="table-auto w-full border-collapse border-1 border-gray-300 ">
                         <thead className="text-center  text-gray-600 text-sm">
@@ -150,7 +150,7 @@ export default function report() {
                         </thead>
                         <tbody className="text-center border-gray-300 text-sm">
                           {/* testcases */}
-                          {item.map((test,index1) => {
+                          {item.testCase.map((test,index1) => {
                               return (
                                 <tr className={`h-10   hover:bg-gray-200 border-0.5 border-gray-200 ${index1 % 2 === 0 ? 'bg-gray-100' : ''}`} key={test.jobId}>
                                   <td className="px-3">{index1 + 1}</td>

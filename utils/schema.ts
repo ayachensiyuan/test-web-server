@@ -330,4 +330,22 @@ export interface AzureSchema {
   automatedTestName: string
 }
 
+export interface TestCaseSchema {
+  title:string, 
+  testResult: 'Failed' | 'Passed', 
+  duration: number, 
+  os?: string, 
+  nodeVersion?: string, 
+  on: string, 
+  caseURL?: string, 
+  runId: string, 
+  jobId: string, 
+  author?: string, 
+  statusIcon: string, 
+  statusIconColor: string, 
+  targetType?: string, 
+  coreVersion?: string, 
+  releaseVersion?: string, 
+  slowMethod?: number
+}
 
