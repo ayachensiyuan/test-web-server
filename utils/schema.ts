@@ -349,3 +349,9 @@ export interface TestCaseSchema {
   slowMethod?: number
 }
 
+export interface VersionSchema {
+  sprint: string, // 'CY22-9.1', 'CY22-7.1'...
+  mainVersion: string, // '1.6', '4.0.6' ...
+  minVersion: string, // 'rc.0', 'alpha.2', 'formal' ...
+  app: 'cli' | 'vs',
+}

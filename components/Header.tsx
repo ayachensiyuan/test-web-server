@@ -20,7 +20,7 @@ export default function Header() {
           </ul>
         </nav>
         <div className=" ">
-          <Link to="https://github.com/officedev/teamsfx">
+          <Link target="_blank" to="https://github.com/officedev/teamsfx">
             <img src="https://github.githubassets.com/favicons/favicon.svg" className="w-10 h-10" />
           </Link>
 
@@ -28,12 +28,12 @@ export default function Header() {
         <nav className="w-full md-w-auto">
           <ul className="flex items-center  justify-center ">
             <li className="mr-4">
-              <Link to="https://app.codecov.io/gh/OfficeDev/TeamsFx">
+              <Link target="_blank" to="https://app.codecov.io/gh/OfficeDev/TeamsFx">
                 <img src="https://app.codecov.io/favicon.ico" className="w-10 h-10" />
               </Link>
             </li>
             <li className="mr-4">
-              <NavLink activeClassName="text-blue" to="https://github.com/officedev/teamsfx">
+              <NavLink activeClassName="text-blue" to="https://github.com/officedev/teamsfx" target="_blank">
                 <div className=" text-xl font-bold">Microsoft Teamsfx Portal</div>
               </NavLink>
             </li>

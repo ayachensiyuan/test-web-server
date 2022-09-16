@@ -36,7 +36,6 @@ export default function report() {
       changeCases(changeStatusIcon(data.data.reportCases))
     }
   }, [])
-  console.log(data.data)
 
   const getContext = (id: string) => {
     if (id === '01') {
@@ -81,7 +80,7 @@ export default function report() {
                                     {test.statusIcon}
                                   </span></td>
                                   <td >
-                                    <Link className="hover:link cursor-pointer px-3" to={test.caseURL || '/'}>
+                                    <Link target="_blank" className="hover:link cursor-pointer px-3" to={test.caseURL || '/'}>
                                       {test.title}
                                     </Link>
                                   </td>
@@ -158,7 +157,8 @@ export default function report() {
                                     {test.statusIcon}
                                   </span></td>
                                   <td >
-                                    <Link className="hover:link cursor-pointer px-3" to={test.caseURL || '/'}>
+                                    <Link 
+                                    target="_blank" className="hover:link cursor-pointer px-3" to={test.caseURL || '/'}>
                                       {test.title}
                                     </Link>
                                   </td>
@@ -225,7 +225,7 @@ export default function report() {
                             {item.azureTestResult.outcome === 'Passed' ? 'check_circle' : 'highlight_off'}
                           </span></td>
                           <td >
-                            <Link className="hover:link cursor-pointer" to={item.azure.caseURL || '/'}>
+                            <Link target="_blank" className="hover:link cursor-pointer" to={item.azure.caseURL || '/'}>
                               {item.azureTestResult.testRun.name}
                             </Link>
                           </td>
@@ -296,7 +296,7 @@ export default function report() {
                                 </span></td>
                                 <td className="px-3">{test.suiteName.split('-')[0]}</td>
                                 <td className="px-3" >
-                                  <Link className="hover:link cursor-pointer" to={test.caseURL || '/'}>
+                                  <Link target="_blank" className="hover:link cursor-pointer" to={test.caseURL || '/'}>
                                     {test.title}
                                   </Link>
                                 </td>
@@ -324,7 +324,7 @@ export default function report() {
             </div>
           </div>
           <div className="flex justify-end mb-20 pr-3">
-            <Link className="flex no-wrap " to="/">
+            <Link  className="flex no-wrap " to="/">
               <span className="text-blue-600 mt-7">back </span>
               <span className="border-r-2 text-transparent border-b-2 w-2 h-2 border-blue-600 rotate--45 relative top-9.5 left-2 "></span>
             </Link>

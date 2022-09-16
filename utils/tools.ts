@@ -1,4 +1,4 @@
-import { ReportSchema, testStatus, reportNameEnum, CaseSchema, FailuresSchema, TestCaseSchema } from "~/utils/schema.ts";
+import { ReportSchema, testStatus, reportNameEnum, CaseSchema, FailuresSchema, TestCaseSchema, VersionSchema } from "~/utils/schema.ts";
 import { config } from 'dotenv'
 //     statusIcon = 'check_circle'
 //     statusIcon = 'report_problem'
@@ -267,9 +267,9 @@ export const initTestCase = (reportId: keyof typeof reportNameEnum, reportCases:
     }
     return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases, testCaseList }
   } else if (reportId === '01' || reportId === '02') {
-    const testCaseList:{runId: string, testCase: TestCaseSchema[]}[] = []
+    const testCaseList: { runId: string, testCase: TestCaseSchema[] }[] = []
     let testCase: TestCaseSchema
-    const failedCaseList:CaseSchema[] = []
+    const failedCaseList: CaseSchema[] = []
     for (let k = 0; k < reportCases.length; k++) {
       const { mochawesome, github, basic } = reportCases[k]
       const runId = github?.runId
@@ -296,4 +296,37 @@ export const initTestCase = (reportId: keyof typeof reportNameEnum, reportCases:
     return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases, testCaseList, failedCaseList }
   } else
     return { reportName: reportNameEnum[reportId], reportId: reportId, reportCases: reportCases }
+}
+
+export const formatVersionList = (versionList: VersionSchema[]) => {
+  const sprintList: { title: string, versionList: { title: string, url: string }[] }[] = []
+  const cliBase = 'https://www.npmjs.com/package/@microsoft/teamsfx-cli/v/'
+  const vsBase = 'https://github.com/OfficeDev/TeamsFx/releases/tag/ms-teams-vscode-extension%40'
+  for (let i = 0; i < versionList.length; i++) {
+    const { mainVersion, minVersion, sprint, app } = versionList[i]
+    let flag = true
+    sprintList.forEach(item => {
+      if (item.title === sprint) {
+        item.versionList.push({
+          title: app === 'cli' ? `CLI@${mainVersion}${(minVersion === 'formal' || minVersion === '') ? '' : '-' + minVersion}` : `VSCode Extension@${mainVersion}${(minVersion === 'formal' || minVersion === '') ? '' :  '-' + minVersion}`,
+          url: app === 'cli' ? cliBase + mainVersion + ((minVersion === 'formal' || minVersion === '') ? '' :  '-' + minVersion) : vsBase + mainVersion + ((minVersion === 'formal' || minVersion === '') ? '' :  '-' + minVersion)
+        })
+        flag = false
+      }
+    })
+    if (flag) {
+      const sprintItem = {
+        title: sprint,
+        versionList: [
+          {
+            title: app === 'cli' ? `CLI@${mainVersion}${(minVersion === 'formal' || minVersion === '') ? '' : '-' + minVersion}` : `VSCode Extension@${mainVersion}${(minVersion === 'formal' || minVersion === '') ? '' :  '-' + minVersion}`,
+            url: app === 'cli' ? cliBase + mainVersion + ((minVersion === 'formal' || minVersion === '') ? '' :  '-' + minVersion) : vsBase + mainVersion + ((minVersion === 'formal' || minVersion === '') ? '' :  '-' + minVersion)
+          }
+        ]
+      }
+      sprintList.push(sprintItem)
+    }
+
+  }
+  return sprintList.reverse()
 }

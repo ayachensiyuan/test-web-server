@@ -1,12 +1,14 @@
 import { Link, useData, useForwardProps } from "aleph/react";
 import StatusCard from "~/components/StatusCard.tsx"
 import ItemCard from "~/components/ItemCard.tsx"
-import { ReportSchema, testStatus } from "~/utils/schema.ts";
+import Sprint from "~/components/Sprint.tsx";
+import { ReportSchema, testStatus, VersionSchema } from "~/utils/schema.ts";
 import { getReportStatus, initItemCards } from "~/utils/tools.ts"
 
 export default function Index(): JSX.Element {
-  const { data } = useForwardProps<{ data: { errMsg: string, reportList: ReportSchema[] } }>()
-  const indexData: { totalStatus: testStatus, reportList: ReportSchema[] } = getReportStatus(data.reportList)
+  const { data } = useForwardProps<{data:{data:{testReport:{data:ReportSchema[] }, versionList: {data: VersionSchema[]}}}}>()
+  const { testReport, versionList } = data.data
+  const indexData: { totalStatus: testStatus, reportList: ReportSchema[] } = getReportStatus(testReport.data)
 
   const mainStatusTitle = 'Current Status'
   const itemCards = initItemCards(indexData.reportList)
@@ -39,6 +41,8 @@ export default function Index(): JSX.Element {
         </div>
 
         <hr className="mt-10 text-gray-200 border-1.5" />
+
+        <Sprint versionList= {versionList.data}></Sprint>
 
         {/* footer */}
         {/* <div className="flex justify-end mb-20 pr-3">

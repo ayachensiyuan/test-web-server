@@ -22,7 +22,7 @@ export const GET = async (req: Request) => {
         }
         return new Response(JSON.stringify({
             errMsg: 'ok',
-            reportList
+            data: reportList
         }), {
             headers: {
                 'content-type': 'application/json',
