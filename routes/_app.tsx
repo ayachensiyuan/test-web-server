@@ -14,7 +14,7 @@ export const data = {
 }
 
 export default function App({ children }: { children: React.ReactNode }) {
-  const { data } = useData<{ errMsg: string, data:{testReport: ReportSchema[],versionList:VersionSchema []}}>()
+  const { data } = useData<{ errMsg: string, data:{testReport: ReportSchema[],versionList:VersionSchema [], coverage: string}}>()
   const [isLoading, changeLoading] = useState(true)
   useEffect(() => {
     if (data.errMsg === "ok") {

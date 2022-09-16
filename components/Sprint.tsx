@@ -9,7 +9,7 @@ export default function Sprint(opts: { versionList: VersionSchema[] }): JSX.Elem
   const [toggle, changeToggle] = useState(false)
   const [currentIndex, changeIndex] = useState(sprintList.length - 1)
   return (
-    <div>
+    <div className='w-1/2 mx-3'>
       <div>
         <h1 className="text-3xl my-8 hover:cursor-default">Sprintly Release</h1>
       </div>

@@ -2,7 +2,7 @@ import { Link, NavLink } from "aleph/react";
 
 export default function Header() {
   return (
-    <header className="bg-white md-h-19 h-38 flex justify-center px-10 shadow-lg shadow-gray-300 w-screen dark:bg-gray-800 dark:text-white">
+    <header className="bg-white md-h-19 h-38 flex justify-center px-10 shadow shadow-gray-300 w-screen dark:bg-gray-800 dark:text-white   z-10">
       <div className=" w-full flex justify-between items-center flex-wrap ">
         <nav className="w-full md-w-auto">
           <ul className="flex items-center  justify-center ">

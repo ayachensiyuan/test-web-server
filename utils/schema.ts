@@ -69,6 +69,8 @@ export interface CaseSchema {
     date?: string;
     reportId: '01' | '02' | '03' | '04' | '05' | '06';
     reportName?: string;
+    state: 'pass' | 'fail' | 'pending' | null;
+    errMsg?: string;
   };
   // from git data
   git: {
@@ -130,26 +132,26 @@ export interface aggregateOptions {
 }
 
 interface Hooks {
-  title: string;
-  fullTitle: string;
-  timeOut: number;
-  duration: number;
-  state: 'passed' | 'failed' | 'pending' | null;
-  speed: number | null;
-  pass: boolean;
-  pending: boolean;
-  fail: boolean;
-  context: string | null;
-  code: string,
-  err: {
+  title?: string;
+  fullTitle?: string;
+  timeOut?: number;
+  duration?: number;
+  state?: 'passed' | 'failed' | 'pending' | null;
+  speed?: number | null;
+  pass?: boolean;
+  pending?: boolean;
+  fail?: boolean;
+  context?: string | null;
+  code?: string,
+  err?: {
     message: string;
     estack: string;
     diff: string;
   };
-  uuid: string;
+  uuid?: string;
   parentUUID: string;
-  isHook: boolean;
-  skiped: boolean;
+  isHook?: boolean;
+  skiped?: boolean;
 }
 
 export interface GitData {
@@ -197,12 +199,12 @@ export interface MochawesomeData {
     start: string;
     end: string;
     duration: number;
-    testsRegistered: number;
-    passPercent: number;
-    other: number;
-    hasOther: boolean;
-    skipped: number;
-    hasSkipped: boolean;
+    testsRegistered?: number;
+    passPercent?: number;
+    other?: number;
+    hasOther?: boolean;
+    skipped?: number;
+    hasSkipped?: boolean;
   },
   results: {
     uuid: string;
