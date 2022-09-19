@@ -1,14 +1,11 @@
-import presetWind from "@unocss/preset-wind.ts";
-import type { UserConfig } from "@unocss/core.ts";
-
+import type { UserConfig } from "@unocss/core";
+import presetUno from "@unocss/preset-uno";
 
 // @ref https://github.com/unocss/unocss#configurations
 export default <UserConfig> {
-  presets: [presetWind({
+  presets: [presetUno({
     // dark: "media",
   })],
-
-
   rules: [
     ['bg-banner', { 'background-image': 'url(assets/pexels-salvatore-de-lellis-9683980.jpg)' }],
   ],
