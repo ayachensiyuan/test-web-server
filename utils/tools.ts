@@ -146,11 +146,23 @@ export const getReportStatus = (reportList: ReportSchema[]) => {
           url: azure?.caseURL,
           runId: azureTestResult?.testRun.id,
         };
-        if (failureItem.failures > 0) {
+        if (azureTestResult?.outcome === 'Failed') {
           addFailureCases(testCaseFailures, failureItem);
         }
       }
-      // const totalTest = reportList[j].reportCases.length;
+      const totalTest = reportList[j].reportCases.length;
+      const percentage = failures / totalTest * 100;
+      if (percentage === 0) {
+        reportList[j].reportResultStatus = testStatus.operational;
+      } else if (percentage <= 20) {
+        reportList[j].reportResultStatus = testStatus.partial_failed;
+      } else if (percentage <= 50) {
+        reportList[j].reportResultStatus = testStatus.partial_passed;
+      } else {
+        reportList[j].reportResultStatus = testStatus.panic;
+      }
+
+      reportList[j].testCaseFailures = testCaseFailures;
     }
   }
   totalStatus = Math.ceil(totalStatus / reportList.length);
@@ -272,7 +284,7 @@ export const parseAuthor = (context: string | undefined | null) => {
       const JSONdata = JSON.parse(JSON.parse(context));
       return JSONdata.author;
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return '';
     }
   } else {
@@ -382,7 +394,9 @@ export const initTestCase = (
             : 'red',
         targetType: github?.targetType,
         coreVersion: github?.coreVersion,
-        slowMethod: github?.slowMethod,
+        slowMethod: typeof github?.slowMethod === 'number'
+          ? github?.slowMethod
+          : -1,
         releaseVersion: github?.releaseVersion,
       };
       if (testCase.testResult === 'Failed') {

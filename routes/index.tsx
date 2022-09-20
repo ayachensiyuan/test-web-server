@@ -43,7 +43,19 @@ export default function Index(): JSX.Element {
         {/* item card */}
         <div className='flex md-flex-wrap md-flex-row flex-col shadow-md shadow-gray-200 mx-3'>
           {itemCards.map((item) => {
-            if (item.reportId !== '05') {
+            if (item.reportId === '05') {
+              return (
+                <ItemCard
+                  key={item.reportId}
+                  title={item.reportName}
+                  status={item.reportResultStatus}
+                  failedCases={item.testCaseFailures}
+                  reportID={item.reportId}
+                  slowMethods={item.slowMethods}
+                  totalCases={item?.testCaseList?.flat().length}
+                />
+              );
+            } else if (item.reportId === '04') {
               return (
                 <ItemCard
                   key={item.reportId}
@@ -55,7 +67,8 @@ export default function Index(): JSX.Element {
                   totalCases={item?.reportCases?.length ?? 0}
                 />
               );
-            } else {
+            }
+            {
               return (
                 <ItemCard
                   key={item.reportId}
@@ -64,7 +77,7 @@ export default function Index(): JSX.Element {
                   failedCases={item.testCaseFailures}
                   reportID={item.reportId}
                   slowMethods={item.slowMethods}
-                  totalCases={item?.testCaseList?.flat().length}
+                  totalCases={item?.reportCases?.length ?? 0}
                 />
               );
             }

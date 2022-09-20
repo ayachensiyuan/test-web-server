@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { Database, MongoClient } from 'mongodb';
-import { aggregateOptions, Fields } from './schema.ts';
-import { getEnv } from './tools.ts';
+import { aggregateOptions, Fields } from '~/utils/schema.ts';
+import { getEnv } from '~/utils/tools.ts';
 
 class Mongo {
   public readonly client: MongoClient;

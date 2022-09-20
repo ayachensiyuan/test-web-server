@@ -112,6 +112,7 @@ export interface ReportSchema {
   reportResultStatus: testStatus;
   testCaseFailures?: FailuresSchema[];
   reportCases: CaseSchema[];
+  testCaseList: { runId: string; testCase: TestCaseSchema[] }[];
 }
 
 export interface Fields {
@@ -348,7 +349,8 @@ export interface TestCaseSchema {
   targetType?: string;
   coreVersion?: string;
   releaseVersion?: string;
-  slowMethod?: number;
+  slowMethod: number;
+  suiteName?: string;
 }
 
 export interface VersionSchema {

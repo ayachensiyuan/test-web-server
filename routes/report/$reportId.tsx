@@ -1,7 +1,13 @@
 import { Link, useData, useRouter } from 'aleph/react';
 import { changeStatusIcon, computeTime } from '~/utils/tools.ts';
 import { useEffect, useState } from 'react';
-import { CaseSchema, ReportSchema, testStatus } from '~/utils/schema.ts';
+import {
+  CaseSchema,
+  ReportSchema,
+  TestCaseData,
+  TestCaseSchema,
+  testStatus,
+} from '~/utils/schema.ts';
 
 export const data = {
   get(_req: Request, ctx: Context) {
@@ -17,7 +23,7 @@ export const data = {
         return { errMsg: 'out_of_data' };
       }
     } else {
-      return { errMsg: 'out_of_data' };
+      location.href = '/';
     }
   },
 };
@@ -47,7 +53,7 @@ export default function report() {
           </h2>
           <div className='border-gray-200 border-1.5   bg-white shadow-md shadow-gray-200 '>
             <div className=''>
-              {data.data.testCaseList.map((item, index) => {
+              {data.data.testCaseList.map((item) => {
                 return (
                   <div>
                     <div
@@ -368,11 +374,11 @@ export default function report() {
           </h2>
           <div className='border-gray-200 border-1.5   bg-white shadow-md shadow-gray-200 '>
             <div className=''>
-              {data.data.testCaseList.map((item, index) => {
+              {data.data.testCaseList.map((item: TestCaseSchema[]) => {
                 return (
                   <div>
                     <div className='pl-5 flex justify-left items-center  text-gray-600 text-lg bg-blue-100 h-10 sticky top-0'>
-                      run id: {item[0].runId}
+                      run id: {item[0].runId as string}
                     </div>
                     <table className='table-auto w-full border-collapse border-1 border-gray-300 mb-5 '>
                       <thead className='text-center  text-gray-600 text-sm'>
@@ -399,7 +405,7 @@ export default function report() {
                               className={`h-10   hover:bg-gray-200 border-0.5 border-gray-200 ${
                                 index1 % 2 === 0 ? 'bg-gray-100' : ''
                               }`}
-                              key={index1}
+                              key={test.jobId}
                             >
                               <td className='px-3'>{index1 + 1}</td>
                               <td className='px-3'>
@@ -411,7 +417,7 @@ export default function report() {
                                 </span>
                               </td>
                               <td className='px-3'>
-                                {test.suiteName.split('-')[0]}
+                                {test.suiteName && test.suiteName.split('-')[0]}
                               </td>
                               <td className='px-3'>
                                 <Link
@@ -443,7 +449,8 @@ export default function report() {
                                 {computeTime(test.duration)}
                               </td>
                               <td className='px-3'>
-                                {test.suiteName.includes('Node')
+                                {test.suiteName &&
+                                    test.suiteName.includes('Node')
                                   ? 'Node'
                                   : 'Browser'}
                               </td>
