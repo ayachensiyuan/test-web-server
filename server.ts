@@ -7,5 +7,5 @@ serve({
   router: { routes },
   ssr: true,
   unocss,
-  port: 80,
+  port: 3000,
 });

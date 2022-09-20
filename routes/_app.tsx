@@ -7,7 +7,7 @@ import { ReportSchema, VersionSchema } from '~/utils/schema.ts';
 
 export const data = {
   async get(_: Request, _ctx: Context) {
-    const data = await fetch('http://localhost/api/fetchdata');
+    const data = await fetch('http://localhost:3000/api/fetchdata');
     return data;
   },
 };
