@@ -38,6 +38,7 @@ export default function App({ children }: { children: React.ReactNode }) {
       <div className='dark:bg-gray-800 dark:text-white'>
         {forwardProps(children, { data })}
       </div>
+      
     </>
   );
 }

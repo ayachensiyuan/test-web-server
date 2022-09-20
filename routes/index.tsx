@@ -93,6 +93,8 @@ export default function Index(): JSX.Element {
         </div>
 
         {/* footer */}
+        <hr className='mt-10 text-gray-200 border-1.5' />
+        <div className='pa-3 text-gray-400 text-4 flex justify-center'>teamsfx portal - v1.6.2</div>
         {
           /* <div className="flex justify-end mb-20 pr-3">
           <Link className="flex no-wrap" to="/history">
