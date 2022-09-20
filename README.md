@@ -3,5 +3,5 @@
 install deno
 
 ```bash
-  deno task dev
+deno task dev
 ```

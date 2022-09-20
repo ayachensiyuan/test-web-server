@@ -1,11 +1,11 @@
-import { ObjectId } from "mongodb/dep"
+import { ObjectId } from 'mongodb/dep';
 
 export enum testStatus {
-  operational = "All Systems Operational",
-  partial_failed = "Partial Failed",
-  partial_passed = "Partial Passed",
-  panic = "Panic",
-  out_of_data = "Out of Data"
+  operational = 'All Systems Operational',
+  partial_failed = 'Partial Failed',
+  partial_passed = 'Partial Passed',
+  panic = 'Panic',
+  out_of_data = 'Out of Data',
 }
 
 export enum reportNameEnum {
@@ -14,19 +14,19 @@ export enum reportNameEnum {
   '03' = 'performance test',
   '04' = 'VS UI test',
   '05' = 'SDK E2E test',
-  '06' = 'CI/CD E2E test'
+  '06' = 'CI/CD E2E test',
 }
 
 export interface FailuresSchema {
-  author: string | undefined,
-  email: string | undefined,
-  failure?: number,
+  author: string | undefined;
+  email: string | undefined;
+  failure?: number;
   failureCases: {
-    failures: number,
-    url: string | undefined,
-    jobId?: string | undefined,
-    runId: string | undefined
-  }[]
+    failures: number;
+    url: string | undefined;
+    jobId?: string | undefined;
+    runId: string | undefined;
+  }[];
 }
 
 export interface TestSchema {
@@ -44,19 +44,19 @@ export interface TestSchema {
     message: string;
     estack: string;
     diff: string;
-  }
+  };
 }
 
 export interface MetaSchema {
   mocha: {
     version: string;
-  }
+  };
   mochawesome: {
     version: string;
-  }
+  };
   marge: {
     version: string;
-  }
+  };
 }
 
 //database schema
@@ -84,10 +84,10 @@ export interface CaseSchema {
   // from github data
   github?: {
     on: string;
-    coreVersion?: "V1/V2" | "V3";
-    os?: "linux" | "windows" | "mac";
-    nodeVersion?: "v14" | "v16"
-    targetType?: "TS" | "JS" | ".NET";
+    coreVersion?: 'V1/V2' | 'V3';
+    os?: 'linux' | 'windows' | 'mac';
+    nodeVersion?: 'v14' | 'v16';
+    targetType?: 'TS' | 'JS' | '.NET';
     jobId: string;
     runId: string;
     caseURL?: string;
@@ -142,7 +142,7 @@ interface Hooks {
   pending?: boolean;
   fail?: boolean;
   context?: string | null;
-  code?: string,
+  code?: string;
   err?: {
     message: string;
     estack: string;
@@ -175,10 +175,10 @@ export interface GithubData {
   caseURL: string;
   jobId: string;
   runId: string;
-  coreVersion: "V1/V2" | "V3";
-  os: "linux" | "windows" | "mac";
-  nodeVersion: "v14" | "v16"
-  targetType: "TS" | "JS" | ".NET";
+  coreVersion: 'V1/V2' | 'V3';
+  os: 'linux' | 'windows' | 'mac';
+  nodeVersion: 'v14' | 'v16';
+  targetType: 'TS' | 'JS' | '.NET';
   slowMethod: number;
   duration: number;
   on: 'schedule' | 'workflow_dispatch' | 'pull_request';
@@ -205,7 +205,7 @@ export interface MochawesomeData {
     hasOther?: boolean;
     skipped?: number;
     hasSkipped?: boolean;
-  },
+  };
   results: {
     uuid: string;
     title: string;
@@ -239,11 +239,11 @@ export interface MochawesomeData {
     root?: boolean;
     rootEmpty?: boolean;
     _timeout?: number;
-  }[],
+  }[];
   meta?: {
     mocha: {
       version: string;
-    },
+    };
     mochawesome: {
       options: {
         quiet: boolean;
@@ -253,107 +253,107 @@ export interface MochawesomeData {
         consoleReporter: string;
         useInlineDiffs: boolean;
         code: boolean;
-      },
+      };
       version: string;
-    },
+    };
     marge: {
       version: string;
       options: Record<string, any> | null;
-    }
-  },
+    };
+  };
   author?: string;
   caseURL?: string;
   jobId?: string;
   parentRunId?: string;
-  coreVersion?: "V1/V2" | "V3";
-  os?: "linux" | "windows" | "mac";
-  nodeVersion?: "v14" | "v16"
-  targetType?: "TS/JS" | ".NET";
+  coreVersion?: 'V1/V2' | 'V3';
+  os?: 'linux' | 'windows' | 'mac';
+  nodeVersion?: 'v14' | 'v16';
+  targetType?: 'TS/JS' | '.NET';
   slowMethod?: number;
 }
 
 export interface AzureSchema {
-  id: string,
+  id: string;
   project: {
-    id: string,
-    name: string,
-    url: string
-  },
-  startedDate: Date,
-  completedDate: Date,
-  durationInMs: number,
-  outcome: 'Passed' | 'Failed' | 'Unknown',
-  revision: number,
+    id: string;
+    name: string;
+    url: string;
+  };
+  startedDate: Date;
+  completedDate: Date;
+  durationInMs: number;
+  outcome: 'Passed' | 'Failed' | 'Unknown';
+  revision: number;
   runBy: {
-    id: string,
-    displayName: string,
-    uniqueName: string,
-    url: string,
-    imageUrl: string
-  },
-  state: 'Completed' | 'Panding' | 'InProgress',
+    id: string;
+    displayName: string;
+    uniqueName: string;
+    url: string;
+    imageUrl: string;
+  };
+  state: 'Completed' | 'Panding' | 'InProgress';
   testCase: {
-    name: string
-  },
+    name: string;
+  };
   testRun: {
-    id: string,
-    name: string,
-    url: string
-  },
-  lastUpdatedDate: Date,
+    id: string;
+    name: string;
+    url: string;
+  };
+  lastUpdatedDate: Date;
   lastUpdatedBy: {
-    id: string,
-    displayName: string,
-    uniqueName: string,
-    url: string,
-    imageUrl: string
-  },
-  priority: number,
-  computerName: string,
+    id: string;
+    displayName: string;
+    uniqueName: string;
+    url: string;
+    imageUrl: string;
+  };
+  priority: number;
+  computerName: string;
   build: {
-    id: string,
-    name: string,
-    url: string
-  },
-  createdDate: Date,
-  url: string,
-  failureType: string,
-  automatedTestStorage: string,
-  automatedTestType: string,
-  automatedTestTypeId: string,
-  automatedTestId: string,
+    id: string;
+    name: string;
+    url: string;
+  };
+  createdDate: Date;
+  url: string;
+  failureType: string;
+  automatedTestStorage: string;
+  automatedTestType: string;
+  automatedTestTypeId: string;
+  automatedTestId: string;
   area: {
-    id: string,
-    name: string,
-    url: string
-  },
-  testCaseTitle: string,
-  customFields: string[],
-  automatedTestName: string
+    id: string;
+    name: string;
+    url: string;
+  };
+  testCaseTitle: string;
+  customFields: string[];
+  automatedTestName: string;
 }
 
 export interface TestCaseSchema {
-  title:string, 
-  testResult: 'Failed' | 'Passed', 
-  duration: number, 
-  os?: string, 
-  nodeVersion?: string, 
-  on: string, 
-  caseURL?: string, 
-  runId: string, 
-  jobId: string, 
-  author?: string, 
-  statusIcon: string, 
-  statusIconColor: string, 
-  targetType?: string, 
-  coreVersion?: string, 
-  releaseVersion?: string, 
-  slowMethod?: number
+  title: string;
+  testResult: 'Failed' | 'Passed';
+  duration: number;
+  os?: string;
+  nodeVersion?: string;
+  on: string;
+  caseURL?: string;
+  runId: string;
+  jobId: string;
+  author?: string;
+  statusIcon: string;
+  statusIconColor: string;
+  targetType?: string;
+  coreVersion?: string;
+  releaseVersion?: string;
+  slowMethod?: number;
 }
 
 export interface VersionSchema {
-  sprint: string, // 'CY22-9.1', 'CY22-7.1'...
-  mainVersion: string, // '1.6', '4.0.6' ...
-  minVersion: string, // 'rc.0', 'alpha.2', 'formal' ...
-  app: 'cli' | 'vs',
+  sprint: string; // 'CY22-9.1', 'CY22-7.1'...
+  mainVersion: string; // '1.6', '4.0.6' ...
+  minVersion: string; // 'rc.0', 'alpha.2', 'formal' ...
+  app: 'cli' | 'vs';
 }

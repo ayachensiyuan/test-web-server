@@ -1,5 +1,5 @@
-import type { UserConfig } from "@unocss/core";
-import presetUno from "@unocss/preset-uno";
+import type { UserConfig } from '@unocss/core';
+import presetUno from '@unocss/preset-uno';
 
 // @ref https://github.com/unocss/unocss#configurations
 export default <UserConfig> {
@@ -7,7 +7,9 @@ export default <UserConfig> {
     // dark: "media",
   })],
   rules: [
-    ['bg-banner', { 'background-image': 'url(assets/pexels-salvatore-de-lellis-9683980.jpg)' }],
+    ['bg-banner', {
+      'background-image': 'url(assets/pexels-salvatore-de-lellis-9683980.jpg)',
+    }],
   ],
   shortcuts: {
     'bg-success': 'bg-lime-300 ',
@@ -19,5 +21,5 @@ export default <UserConfig> {
     'danger': 'text-orange-500 ',
     'error': 'text-red-600 ',
     'link': 'text-blue-500 underline ',
-  }
+  },
 };
