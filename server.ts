@@ -4,6 +4,7 @@ import unocss from './unocss.config.ts';
 
 serve({
   baseUrl: import.meta.url,
+  hostname: '0.0.0.0',
   router: { routes },
   ssr: true,
   unocss,
