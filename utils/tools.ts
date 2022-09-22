@@ -394,9 +394,7 @@ export const initTestCase = (
             : 'red',
         targetType: github?.targetType,
         coreVersion: github?.coreVersion,
-        slowMethod: typeof github?.slowMethod === 'number'
-          ? github?.slowMethod
-          : -1,
+        slowMethod: github?.slowMethod,
         releaseVersion: github?.releaseVersion,
       };
       if (testCase.testResult === 'Failed') {
@@ -432,37 +430,29 @@ export const initTestCase = (
 export const formatVersionList = (versionList: VersionSchema[]) => {
   const sprintList: {
     title: string;
-    versionList: { title: string; url: string }[];
+    versionList: { title: string; url: string; id: string }[];
   }[] = [];
   const cliBase = 'https://www.npmjs.com/package/@microsoft/teamsfx-cli/v/';
   const vsBase =
     'https://github.com/OfficeDev/TeamsFx/releases/tag/ms-teams-vscode-extension%40';
   for (let i = 0; i < versionList.length; i++) {
-    const { mainVersion, minVersion, sprint, app } = versionList[i];
+    const { major, minor, patch, preRelease, sprint, app, _id } = versionList[i];
     let flag = true;
+    const version = `${major}.${minor}.${patch}${
+      (!preRelease || preRelease !== '')
+        ? ''
+        : '-' + preRelease
+    }`
     sprintList.forEach((item) => {
       if (item.title === sprint) {
         item.versionList.push({
+          id: _id,
           title: app === 'cli'
-            ? `CLI@${mainVersion}${
-              (minVersion === 'formal' || minVersion === '')
-                ? ''
-                : '-' + minVersion
-            }`
-            : `VSCode Extension@${mainVersion}${
-              (minVersion === 'formal' || minVersion === '')
-                ? ''
-                : '-' + minVersion
-            }`,
+            ? `CLI@${version}`
+            : `VSCode Extension@${version}`,
           url: app === 'cli'
-            ? cliBase + mainVersion +
-              ((minVersion === 'formal' || minVersion === '')
-                ? ''
-                : '-' + minVersion)
-            : vsBase + mainVersion +
-              ((minVersion === 'formal' || minVersion === '')
-                ? ''
-                : '-' + minVersion),
+            ? cliBase + version
+            : vsBase + version,
         });
         flag = false;
       }
@@ -472,26 +462,13 @@ export const formatVersionList = (versionList: VersionSchema[]) => {
         title: sprint,
         versionList: [
           {
+            id: _id,
             title: app === 'cli'
-              ? `CLI@${mainVersion}${
-                (minVersion === 'formal' || minVersion === '')
-                  ? ''
-                  : '-' + minVersion
-              }`
-              : `VSCode Extension@${mainVersion}${
-                (minVersion === 'formal' || minVersion === '')
-                  ? ''
-                  : '-' + minVersion
-              }`,
+              ? `CLI@${version}`
+              : `VSCode Extension@${version}`,
             url: app === 'cli'
-              ? cliBase + mainVersion +
-                ((minVersion === 'formal' || minVersion === '')
-                  ? ''
-                  : '-' + minVersion)
-              : vsBase + mainVersion +
-                ((minVersion === 'formal' || minVersion === '')
-                  ? ''
-                  : '-' + minVersion),
+              ? cliBase + version
+              : vsBase + version,
           },
         ],
       };
@@ -500,3 +477,37 @@ export const formatVersionList = (versionList: VersionSchema[]) => {
   }
   return sprintList.reverse();
 };
+
+export const compareSprint = (a: string, b: string) => {
+  const str1 = a.split('-')[1];
+  const str2 = b.split('-')[1];
+  if(!str1 || !str2) return 0;
+
+  const year1 = a.split('-')[0];
+  const month1 = str1.split('.')[0];
+  const sprint1 = str1.split('.')[1];
+  const year2 = b.split('-')[0];
+  const month2 = str2.split('.')[0];
+  const sprint2 = str2.split('.')[1];
+
+  if (year1 > year2) {
+    return 1;
+  }
+  if (year1 < year2) {
+    return -1;
+  }
+  if (month1 > month2) {
+    return 1;
+  }
+  if (month1 < month2) {
+    return -1;
+  }
+  if (sprint1 > sprint2) {
+    return 1;
+  }
+  if (sprint1 < sprint2) {
+    return -1;
+  }
+  return 0;
+};
+

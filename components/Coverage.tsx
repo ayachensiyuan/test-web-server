@@ -8,7 +8,7 @@ export default function Coverage(opts: { coverage: string }) {
         <div className='flex self-start items-center'>
           <span className='mx-5 text-5'>TeamsFx</span>
           <a href='https://codecov.io/gh/OfficeDev/TeamsFx'>
-            <img src='https://codecov.io/gh/OfficeDev/TeamsFx/branch/dev/graph/badge.svg?token=QQX8WVOEC3' />
+            <img src='https://codecov.io/gh/OfficeDev/TeamsFx/branch/dev/graph/badge.svg' />
           </a>
         </div>
 

@@ -6,9 +6,8 @@ export default function Sprint(
   opts: { versionList: VersionSchema[] },
 ): JSX.Element {
   const sprintList = formatVersionList(opts.versionList);
-
   const [toggle, changeToggle] = useState(false);
-  const [currentIndex, changeIndex] = useState(sprintList.length - 1);
+  const [currentIndex, changeIndex] = useState(0);
   return (
     <div className='w-1/2 mx-3'>
       <div>
@@ -46,6 +45,7 @@ export default function Sprint(
                     changeIndex(index);
                     changeToggle(false);
                   }}
+                  key={item.title}
                   className='border-b-0.5 border-gray-200 w-full flex justify-between items-center hover:bg-gray-100 hover:cursor-pointer py-2'
                 >
                   <span className='material-icons ml-3'>
@@ -70,9 +70,9 @@ export default function Sprint(
           Release detail:
         </div>
         <ul className='ma-3 text-4'>
-          {sprintList[currentIndex].versionList.map((item, index) => {
+          {sprintList[currentIndex].versionList.map((item) => {
             return (
-              <li className='py-3 w-full underline text-blue-700'>
+              <li className='py-3 w-full underline text-blue-700' key={item.id}>
                 <Link target='_blank' to={item.url}>
                   {item.title}
                 </Link>

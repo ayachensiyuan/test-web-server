@@ -1,13 +1,13 @@
 import Mongo from '~/utils/mongodb.ts';
-import { verifyToken } from '~/utils/tools.ts';
+import { verifyToken, compareSprint } from '~/utils/tools.ts';
 import { VersionSchema } from '~/utils/schema.ts';
 export const POST = async (request: Request) => {
   const isAuth = verifyToken(request.headers);
   if (isAuth) {
     // verify and reconstruct data
     const data: VersionSchema = await request.json();
-    const { sprint, mainVersion, minVersion, app } = data;
-    if (!sprint || !mainVersion || !app) {
+    const { sprint, major, minor, patch, app, preRelease } = data;
+    if (!sprint || !major || !minor || !patch || !app) {
       return new Response(
         JSON.stringify({
           state: 'fail',
@@ -25,9 +25,10 @@ export const POST = async (request: Request) => {
     await mongo.connect();
     // check if the data is already in db
     const isExist = await mongo.findOne('version', {
-      sprint,
-      mainVersion,
-      minVersion,
+      major,
+      minor,
+      patch,
+      preRelease,
       app,
     });
     if (isExist.state === 'success') {
@@ -85,11 +86,14 @@ export const GET = async () => {
   const mongo = new Mongo();
   await mongo.connect();
   const result = await mongo.findMany('version', {});
+
   mongo.close();
   return new Response(
     JSON.stringify({
       errMsg: 'ok',
-      data: result.data,
+      data: (result.data)?.sort((a, b)=> {
+        return compareSprint(a.sprint, b.sprint);
+      }),
     }),
     {
       headers: {
